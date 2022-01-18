@@ -5,6 +5,10 @@
     <title>Welcome in ToDo</title>
 </head>
 <body>
-    <h1 align="center">ToDo List</h1>
+<h1 align="center">ToDo List</h1>
+{% for task in task_list %}
+    <h2> {{ task.title }} </h2>
+    <p> {{ task.text }} </p>
+{% endfor %}
 </body>
 </html>
