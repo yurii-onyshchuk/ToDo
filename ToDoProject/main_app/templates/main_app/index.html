@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ua">
 <head>
     <meta charset="UTF-8">
     <title>Welcome in ToDo</title>
@@ -7,8 +7,11 @@
 <body>
 <h1 align="center">ToDo List</h1>
 {% for task in task_list %}
-    <h2> {{ task.title }} </h2>
-    <p> {{ task.text }} </p>
+<ul>
+    <li><h2> {{ task.title }}</h2></li>
+</ul>
+<p> {{ task.text }} </p>
+
 {% endfor %}
 </body>
 </html>
