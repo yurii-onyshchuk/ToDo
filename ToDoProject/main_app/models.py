@@ -4,7 +4,7 @@ from django.db import models
 class Task(models.Model):
     title = models.CharField('Назва', max_length=100)
     text = models.TextField('Опис')
-    created_data = models.DateTimeField('Срок виконання')
+    created_data = models.DateTimeField('Срок виконання', null=True)
     category = models.ForeignKey('Category', on_delete=models.PROTECT, null=True)
 
     class Meta:

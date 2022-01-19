@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Add task</h1>
+<form method="POST">{% csrf_token %}
+    {{form.as_p}}
+<button type="submit">Зберегти</button>
+</form>
+<h5><a href="/">Повернутися до списку завдань</a></h5>
+</body>
+</html>
