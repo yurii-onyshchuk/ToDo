@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'main_app/base.html' %}
+{% block content %}
 <h1>Add task</h1>
-<form method="POST">{% csrf_token %}
+<form method="POST">
+    {% csrf_token %}
     {{form.as_p}}
-<button type="submit">Зберегти</button>
+    <button type="submit">Зберегти</button>
+    <a href="../"><input type="button" name="Cancel" value="Скасувати"></a>
 </form>
-<h5><a href="/">Повернутися до списку завдань</a></h5>
-</body>
-</html>
+
+{% endblock %}

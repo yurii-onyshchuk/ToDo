@@ -5,7 +5,7 @@ from .form import TaskForm
 
 def index(request):
     task_list = Task.objects.all()
-    return render(request, 'main_app/index.html', {'task_list': task_list})
+    return render(request, 'main_app/task_list.html', {'task_list': task_list})
 
 
 def add_task(request):
@@ -13,7 +13,6 @@ def add_task(request):
         form = TaskForm(request.POST)
         if form.is_valid():
             task = form.save(commit=False)
-            #task.title = request.title
             task.save()
             return redirect('index')
     else:
