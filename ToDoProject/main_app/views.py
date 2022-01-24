@@ -18,3 +18,8 @@ def add_task(request):
     else:
         form = TaskForm()
     return render(request, 'main_app/add_task.html', {'form': form})
+
+
+def delete_task(request, pk):
+    Task.objects.filter(id=pk).delete()
+    return redirect('index')
