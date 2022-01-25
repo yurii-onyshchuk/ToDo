@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}{{title}}{% endblock %}
 {% block content %}
 <h1>Add task</h1>
 <form method="POST">
@@ -7,5 +8,4 @@
     <button type="submit">Зберегти</button>
     <a href="../"><input type="button" name="Cancel" value="Скасувати"></a>
 </form>
-
 {% endblock %}

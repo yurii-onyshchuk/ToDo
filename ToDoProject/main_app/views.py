@@ -3,12 +3,14 @@ from .models import Task
 from .form import TaskForm
 
 
-def index(request):
+def task_list(request):
+    title = 'Task list'
     task_list = Task.objects.all()
-    return render(request, 'main_app/task_list.html', {'task_list': task_list})
+    return render(request, 'main_app/task_list.html', {'task_list': task_list, 'title': title})
 
 
 def add_task(request):
+    title = 'Add task'
     if request.method == "POST":
         form = TaskForm(request.POST)
         if form.is_valid():
@@ -17,7 +19,7 @@ def add_task(request):
             return redirect('index')
     else:
         form = TaskForm()
-    return render(request, 'main_app/add_task.html', {'form': form})
+    return render(request, 'main_app/add_task.html', {'form': form, 'title': title})
 
 
 def delete_task(request, pk):
