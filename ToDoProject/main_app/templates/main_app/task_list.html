@@ -1,11 +1,25 @@
 {% extends 'base.html' %}
-{% block title %}{{title}}{% endblock %}
+
+{% block title %}{{ title }}: {{ block.super }}{% endblock %}
 {% block content %}
-<h6 align="center"><a href="add_task">+ Додати завдання</a></h6>
-{% for task in task_list %}
-<ul>
-    <li><h2><a href="{% url 'delete_task' task.id %}" >{{ task.title }}</a></h2></li>
-</ul>
-<p> {{ task.text }} </p>
-{% endfor %}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1>Список завдань</h1>
+            {% for task in task_list %}
+                <div>
+                    <ul>
+                        <li><h2><a class="task_title" href="{% url 'delete_task' task.id %}">{{ task.title }}</a></h2></li>
+                    </ul>
+                    <p class="task_text"> {{ task.text }} </p>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
 {% endblock %}
+
+
+
+
+
+
+

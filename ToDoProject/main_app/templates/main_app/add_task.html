@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}{{title}}{% endblock %}
+{% block title %}{{ title }}: {{ block.super }}{% endblock %}
 {% block content %}
-<h1>Add task</h1>
-<form method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Зберегти</button>
-    <a href="../"><input type="button" name="Cancel" value="Скасувати"></a>
-</form>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1>Додати завдання</h1>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Зберегти</button>
+                <a href="../"><input type="button" name="Cancel" value="Скасувати"></a>
+            </form>
+        </div>
+    </main>
 {% endblock %}

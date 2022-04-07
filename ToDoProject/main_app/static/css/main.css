@@ -1,15 +1,27 @@
 h1 {
-    font-family: 'Lobster'
+    font-family: 'Lobster';
+    text-align: center
 }
 
 .Main-head {
-    color:red;
+    color: red;
 }
 
-body {
-    padding-left: 15px;
+.task_title {
+    color: black;
+    font-size: large;
 }
 
-h2 {
-    color:green;
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
 }
