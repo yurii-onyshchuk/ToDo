@@ -1,10 +1,11 @@
-h1 {
+.Main-head {
+    color: #1b1b1b;
     font-family: 'Lobster';
-    text-align: center
+    text-align: center;
 }
 
-.Main-head {
-    color: red;
+.task{
+    
 }
 
 .task_title {
@@ -12,16 +13,11 @@ h1 {
     font-size: large;
 }
 
-.bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
+.task_text {
+    color: dimgrey;
+    font-size: small;
 }
 
-@media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-    }
+.task_category {
+    color: #2470dc;
 }

@@ -6,7 +6,7 @@ class Task(models.Model):
     title = models.CharField(verbose_name='Назва', max_length=100)
     text = models.TextField(verbose_name='Опис')
     created_data = models.DateTimeField(verbose_name='Срок виконання', null=True)
-    category = models.ForeignKey('Category', verbose_name='Категорія', on_delete=models.PROTECT, null=True)
+    category = models.ForeignKey('Category', verbose_name='Категорія', on_delete=models.PROTECT, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Завдання'

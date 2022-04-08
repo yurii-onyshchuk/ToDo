@@ -3,14 +3,18 @@
 {% block title %}{{ title }}: {{ block.super }}{% endblock %}
 {% block content %}
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1>Список завдань</h1>
+        <div class="align-items-center pt-3 pb-2 mb-3 ms-5 me-5">
+            <h1 class="Main-head">Список завдань</h1>
             {% for task in task_list %}
-                <div>
-                    <ul>
-                        <li><h2><a class="task_title" href="{% url 'delete_task' task.id %}">{{ task.title }}</a></h2></li>
+                <div class="task border-bottom">
+                    <ul style="margin-bottom: 0">
+                        <li><h2><a class="task_title" href="{% url 'delete_task' task.id %}">{{ task.title }}</a></h2>
+                        </li>
                     </ul>
-                    <p class="task_text"> {{ task.text }} </p>
+                    {% if task.category %}
+                        <a class="task_category" href="{{ task.category.get_absolute_url }}"> {{ task.category }} </a>
+                    {% endif %}
+                    <p class="task_text"> {{ task.text }}</p>
                 </div>
             {% endfor %}
         </div>
