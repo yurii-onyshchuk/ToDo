@@ -30,4 +30,18 @@ def add_task(request):
 
 def delete_task(request, pk):
     Task.objects.filter(id=pk).delete()
-    return redirect('index')
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def edit_task(request, pk):
+    title = 'Редагування завдання'
+    task = Task.objects.get(pk=pk)
+    if request.method == 'GET':
+        form = TaskForm({'title': task.title, 'text': task.text, 'category': task.category})
+        return render(request, 'main_app/edit_task.html', {'title': title, 'form': form, 'task': task})
+    elif request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.save()
+            return redirect('index')

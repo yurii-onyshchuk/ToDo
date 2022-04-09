@@ -8,13 +8,17 @@
             {% for task in task_list %}
                 <div class="task border-bottom">
                     <ul style="margin-bottom: 0">
-                        <li><h2><a class="task_title" href="{% url 'delete_task' task.id %}">{{ task.title }}</a></h2>
-                        </li>
+                        <li class="task_title" href="{% url 'delete_task' task.id %}">{{ task.title }}</li>
                     </ul>
                     {% if task.category %}
                         <a class="task_category" href="{{ task.category.get_absolute_url }}"> {{ task.category }} </a>
                     {% endif %}
                     <p class="task_text"> {{ task.text }}</p>
+                    <div class="task_button">
+                        <a id="task_ready" href="{% url 'delete_task' task.id %}">Виконати</a>
+                        <a id="task_edit" href="{% url 'edit_task' task.id %}">Редагувати</a>
+                        <a id="task_delete" href="{% url 'delete_task' task.id %}">Видалити</a>
+                    </div>
                 </div>
             {% endfor %}
         </div>
