@@ -17,7 +17,7 @@ class Task(models.Model):
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=100, db_index=True)
+    title = models.CharField(max_length=100, db_index=True, verbose_name='Назва категорії')
 
     class Meta:
         verbose_name = 'Категорія'

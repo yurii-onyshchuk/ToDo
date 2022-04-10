@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import Task, Category
-from .form import TaskForm
+from .form import TaskForm, CategoryForm
 
 
 def task_list(request):
@@ -44,4 +44,17 @@ def edit_task(request, pk):
         if form.is_valid():
             task = form.save(commit=False)
             task.save()
+            return redirect('index')
+
+
+def add_category(request):
+    title = 'Додати категорію'
+    if request.method == 'GET':
+        form = CategoryForm()
+        return render(request, 'main_app/add_category.html', {'title': title, 'form': form, })
+    elif request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category = form.save()
+            category.save()
             return redirect('index')
