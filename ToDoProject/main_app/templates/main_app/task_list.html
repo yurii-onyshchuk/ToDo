@@ -8,16 +8,30 @@
             {% for task in task_list %}
                 <div class="task border-bottom">
                     <ul style="margin-bottom: 0">
-                        <li class="task_title" href="{% url 'delete_task' task.id %}">{{ task.title }}</li>
+                        <li class="task_title">{{ task.title }}</li>
                     </ul>
                     {% if task.category %}
                         <a class="task_category" href="{{ task.category.get_absolute_url }}"> {{ task.category }} </a>
                     {% endif %}
                     <p class="task_text"> {{ task.text }}</p>
                     <div class="task_button">
-                        <a id="task_ready" href="{% url 'delete_task' task.id %}">Виконати</a>
-                        <a id="task_edit" href="{% url 'edit_task' task.id %}">Редагувати</a>
-                        <a id="task_delete" href="{% url 'delete_task' task.id %}">Видалити</a>
+                        {% if task.performed %}
+                            <a id="task_ready" href="{% url 'recovery_task' task.id %}" data-bs-toggle="tooltip"
+                               data-bs-html="true" title="Відновити завдання"><span
+                                    data-feather="corner-up-left"></span></a>
+                        {% else %}
+                            <a id="task_ready" href="{% url 'perform_task' task.id %}" data-bs-toggle="tooltip"
+                               data-bs-html="true" title="Виконати завдання"><span
+                                    data-feather="check"></span></a>
+                        {% endif %}
+                        <a id="task_edit" href="{% url 'edit_task' task.id %}" data-bs-toggle="tooltip"
+                           data-bs-html="true" title="Редагувати завдання"><span
+                                data-feather="edit-3"></span></a>
+                        <a id="task_delete" href="{% url 'delete_task' task.id %}" data-bs-toggle="tooltip"
+                           data-bs-html="true" title="Видалити завдання"><span
+                                data-feather="trash"></span></a>
+
+
                     </div>
                 </div>
             {% endfor %}

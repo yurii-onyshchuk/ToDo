@@ -5,13 +5,13 @@ from .form import TaskForm, CategoryForm
 
 def task_list(request):
     title = 'Всі задання'
-    task_list = Task.objects.all()
+    task_list = Task.objects.filter(performed=False)
     return render(request, 'main_app/task_list.html', {'task_list': task_list, 'title': title})
 
 
 def task_by_catagory(request, pk):
     title = Category.objects.get(pk=pk)
-    task_list = Task.objects.filter(category_id=pk)
+    task_list = Task.objects.filter(category_id=pk, performed=False)
     return render(request, 'main_app/task_list.html', {'task_list': task_list, 'title': title})
 
 
@@ -29,7 +29,27 @@ def add_task(request):
 
 
 def delete_task(request, pk):
-    Task.objects.filter(id=pk).delete()
+    Task.objects.get(id=pk).delete()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def perform_task(request, pk):
+    task = Task.objects.get(id=pk)
+    task.performed = True
+    task.save()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def performed_task(request):
+    title = "Виконані завдання"
+    task_list = Task.objects.filter(performed=True)
+    return render(request, 'main_app/task_list.html', {'task_list': task_list, 'title': title})
+
+
+def recovery_task(request, pk):
+    task = Task.objects.get(id=pk)
+    task.performed = False
+    task.save()
     return redirect(request.META.get('HTTP_REFERER'))
 
 
