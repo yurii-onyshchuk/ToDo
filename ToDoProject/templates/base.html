@@ -21,12 +21,16 @@
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{% url 'index' %}">ToDo List</a>
-{#    <input class="form-control form-control-dark w-100" type="text" placeholder="Пошук" aria-label="Search">#}
+    <input class="form-control form-control-dark w-100" type="text" placeholder="Пошук" aria-label="Search">
     <div class="navbar-nav">
         <div class="nav-item text-nowrap">
-            <a class="nav-link px-3" href="{% url 'add_task' %}">+ Додати завдання</a>
+            <a class="nav-link ps-3" href="{% url 'add_task' %}">+ Додати завдання</a>
         </div>
     </div>
+    <span class="navbar-text col-2" style="text-align: right">
+        <a class="pe-2 navbar-text" href="{% url 'login' %}">Вхід</a>
+        <a class="pe-2 navbar-text" href="{% url 'register' %}">Реєстрація</a>
+    </span>
 </header>
 
 {% show_sidebar %}

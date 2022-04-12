@@ -25,5 +25,9 @@ urlpatterns = [
     path('edit_task/<int:pk>', views.edit_task, name='edit_task'),
     path('category/<int:pk>', views.task_by_catagory, name='task_by_category'),
     path('performed_task', views.performed_task, name='performed_task'),
-    path('add_category', views.add_category, name='add_category')
+    path('add_category', views.add_category, name='add_category'),
+    path('edit_category/<int:pk>', views.edit_category, name='edit_category'),
+    path('delete_category/<int:pk>', views.delete_category, name='delete_category'),
+    path('register', views.register, name='register'),
+    path('login', views.login, name='login'),
 ]

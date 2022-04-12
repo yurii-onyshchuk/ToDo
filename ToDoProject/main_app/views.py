@@ -4,7 +4,7 @@ from .form import TaskForm, CategoryForm
 
 
 def task_list(request):
-    title = 'Всі задання'
+    title = 'Список завдань'
     task_list = Task.objects.filter(performed=False)
     return render(request, 'main_app/task_list.html', {'task_list': task_list, 'title': title})
 
@@ -12,7 +12,7 @@ def task_list(request):
 def task_by_catagory(request, pk):
     title = Category.objects.get(pk=pk)
     task_list = Task.objects.filter(category_id=pk, performed=False)
-    return render(request, 'main_app/task_list.html', {'task_list': task_list, 'title': title})
+    return render(request, 'main_app/task_by_category.html', {'task_list': task_list, 'title': title})
 
 
 def add_task(request):
@@ -78,3 +78,37 @@ def add_category(request):
             category = form.save()
             category.save()
             return redirect('index')
+
+
+def edit_category(request, pk):
+    title = 'Редагування категорії'
+    category = Category.objects.get(pk=pk)
+    if request.method == 'GET':
+        form = CategoryForm({'title': category.title})
+        return render(request, 'main_app/edit_category.html', {'title': title, 'form': form, })
+    elif request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            category = form.save()
+            category.save()
+            return redirect('task_by_category', pk)
+
+
+def delete_category(request, pk):
+    Category.objects.get(pk=pk).delete()
+    return redirect('index')
+
+
+def register(request):
+    title = 'Реєстрація'
+    return render(request, 'main_app/register.html', {'title': title})
+
+
+def login(request):
+    title = 'Вхід'
+    return render(request, 'main_app/login.html', {'title': title})
+
+
+def search(request):
+    task_list = Task.objects.filter(title__icontains=request.GET.get('s'))
+    return render(request, 'main_app/search.html', {'task_list': task_list})
