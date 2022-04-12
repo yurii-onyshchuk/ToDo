@@ -30,4 +30,5 @@ urlpatterns = [
     path('delete_category/<int:pk>', views.delete_category, name='delete_category'),
     path('register', views.register, name='register'),
     path('login', views.login, name='login'),
+    path('search/', views.search, name='search'),
 ]

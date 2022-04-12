@@ -14,6 +14,9 @@
                         <a class="task_category" href="{{ task.category.get_absolute_url }}"> {{ task.category }} </a>
                     {% endif %}
                     <p class="task_text"> {{ task.text }}</p>
+                    {% if task.performed %}
+                        <p class="task_text" style="color:red" >Виконано!</p>
+                    {% endif %}
                     <div class="task_button">
                         {% if task.performed %}
                             <a id="task_ready" href="{% url 'recovery_task' task.id %}" data-bs-toggle="tooltip"
