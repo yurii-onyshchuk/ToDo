@@ -30,8 +30,13 @@
         </div>
     </div>
     <span class="navbar-text col-2" style="text-align: right">
-        <a class="pe-2 navbar-text" href="{% url 'user_login' %}">Вхід</a>
-        <a class="pe-2 navbar-text" href="{% url 'user_register' %}">Реєстрація</a>
+        {% if request.user.is_authenticated %}
+            <span class="pe-2 navbar-text">Вітання, {{ request.user.first_name }}</span>
+            <a class="pe-2 navbar-text" href="{% url 'user_logout' %}">Вихід</a>
+        {% else %}
+            <a class="pe-2 navbar-text" href="{% url 'user_login' %}">Вхід</a>
+            <a class="pe-2 navbar-text" href="{% url 'user_register' %}">Реєстрація</a>
+        {% endif %}
     </span>
 </header>
 
