@@ -30,12 +30,35 @@
         </div>
     </div>
     <span class="navbar-text col-2" style="text-align: right">
-        <a class="pe-2 navbar-text" href="{% url 'login' %}">Вхід</a>
-        <a class="pe-2 navbar-text" href="{% url 'register' %}">Реєстрація</a>
+        <a class="pe-2 navbar-text" href="{% url 'user_login' %}">Вхід</a>
+        <a class="pe-2 navbar-text" href="{% url 'user_register' %}">Реєстрація</a>
     </span>
 </header>
 
 {% show_sidebar %}
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="align-items-center pt-3 px-5">
+        {% if messages %}
+
+            {% for message in messages %}
+
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+
+        {% endif %}
+    </div>
+</main>
+
 
 {% block content %}
 {% endblock %}

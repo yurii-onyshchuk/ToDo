@@ -32,6 +32,10 @@
     margin-bottom: 10px;
 }
 
+.errorlist li {
+    color: red;
+}
+
 #task_ready {
     color: #54c72d;
     margin-left: 20%;

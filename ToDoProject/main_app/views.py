@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import Task, Category
-from .form import TaskForm, CategoryForm
+from .form import TaskForm, CategoryForm, UserRegisterForm
+from django.contrib import messages
 
 
 def task_list(request):
@@ -99,12 +100,22 @@ def delete_category(request, pk):
     return redirect('index')
 
 
-def register(request):
+def user_register(request):
     title = 'Реєстрація'
-    return render(request, 'main_app/register.html', {'title': title})
+    if request.method == 'GET':
+        form = UserRegisterForm()
+    elif request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Успішна реєстрація!')
+            return redirect('login')
+        else:
+            messages.error(request, 'Помилка реєстрації!')
+    return render(request, 'main_app/register.html', {'title': title, 'form': form})
 
 
-def login(request):
+def user_login(request):
     title = 'Вхід'
     return render(request, 'main_app/login.html', {'title': title})
 

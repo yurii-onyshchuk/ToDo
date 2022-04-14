@@ -28,7 +28,7 @@ urlpatterns = [
     path('add_category', views.add_category, name='add_category'),
     path('edit_category/<int:pk>', views.edit_category, name='edit_category'),
     path('delete_category/<int:pk>', views.delete_category, name='delete_category'),
-    path('register', views.register, name='register'),
-    path('login', views.login, name='login'),
+    path('register', views.user_register, name='user_register'),
+    path('login', views.user_login, name='user_login'),
     path('search/', views.search, name='search'),
 ]
