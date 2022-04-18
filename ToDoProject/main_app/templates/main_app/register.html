@@ -8,9 +8,12 @@
             <form method="POST">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit">Зберегти</button>
-                <a href="../"><input type="button" name="Cancel" value="Скасувати"></a>
+                <button type="submit">Зареєструватися</button>
             </form>
+            <div class="mt-3">
+                <span>Вже зареєстровані?</span>
+                <a href="{% url 'user_login' %}"><input type="button" name="Cancel" value="Ввійти в систему"></a>
+            </div>
         </div>
     </main>
 {% endblock %}

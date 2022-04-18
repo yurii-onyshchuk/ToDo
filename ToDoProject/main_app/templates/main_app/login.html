@@ -9,8 +9,11 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit">Ввійти</button>
-                <a href="../"><input type="button" name="Cancel" value="Скасувати"></a>
             </form>
+            <div class="mt-3">
+                <span>Немає акаунту?</span>
+                <a href="{% url 'user_register' %}"><input type="button" name="Cancel" value="Реєстрація"></a>
+            </div>
         </div>
     </main>
 {% endblock %}
