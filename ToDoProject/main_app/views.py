@@ -16,7 +16,7 @@ def task_list(request):
 
 def task_by_catagory(request, pk):
     if request.user.is_authenticated:
-        title = Category.objects.get(pk=pk)
+        title = Category.objects.get(user=request.user, pk=pk)
         task_list = Task.objects.filter(user=request.user, category_id=pk, performed=False)
         return render(request, 'main_app/task_by_category.html', {'task_list': task_list, 'title': title})
     else:
@@ -43,7 +43,7 @@ def add_task(request):
 
 def delete_task(request, pk):
     if request.user.is_authenticated:
-        Task.objects.get(id=pk).delete()
+        Task.objects.get(user=request.user, id=pk).delete()
         return redirect(request.META.get('HTTP_REFERER'))
     else:
         return redirect('user_login')
@@ -51,7 +51,7 @@ def delete_task(request, pk):
 
 def perform_task(request, pk):
     if request.user.is_authenticated:
-        task = Task.objects.get(id=pk)
+        task = Task.objects.get(user=request.user, id=pk)
         task.performed = True
         task.save()
         return redirect(request.META.get('HTTP_REFERER'))
@@ -70,7 +70,7 @@ def performed_task(request):
 
 def recovery_task(request, pk):
     if request.user.is_authenticated:
-        task = Task.objects.get(id=pk)
+        task = Task.objects.get(user=request.user, id=pk)
         task.performed = False
         task.save()
         return redirect(request.META.get('HTTP_REFERER'))
@@ -81,7 +81,7 @@ def recovery_task(request, pk):
 def edit_task(request, pk):
     if request.user.is_authenticated:
         title = 'Редагування завдання'
-        task = Task.objects.get(pk=pk)
+        task = Task.objects.get(user=request.user, pk=pk)
         if request.method == 'POST':
             form = TaskForm(request.POST, instance=task)
             if form.is_valid():
@@ -115,7 +115,7 @@ def add_category(request):
 def edit_category(request, pk):
     if request.user.is_authenticated:
         title = 'Редагування категорії'
-        category = Category.objects.get(pk=pk)
+        category = Category.objects.get(user=request.user, pk=pk)
         if request.method == 'POST':
             form = CategoryForm(request.POST, instance=category)
             if form.is_valid():
@@ -151,9 +151,10 @@ def user_register(request):
         if request.method == 'POST':
             form = UserRegisterForm(request.POST)
             if form.is_valid():
-                form.save()
+                user = form.save()
+                login(request, user)
                 messages.success(request, 'Успішна реєстрація!')
-                return redirect('user_login')
+                return redirect('index')
             else:
                 messages.error(request, 'Помилка реєстрації!')
         else:

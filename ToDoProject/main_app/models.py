@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class Task(models.Model):
     user = models.ForeignKey(verbose_name='Користувач', to=User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(verbose_name='Назва', max_length=100)
-    text = models.TextField(verbose_name='Опис')
+    text = models.TextField(verbose_name='Опис', blank=True)
     created_data = models.DateTimeField(verbose_name='Дата створення', auto_now_add=True)
     category = models.ForeignKey('Category', verbose_name='Категорія', on_delete=models.PROTECT, null=True, blank=True)
     performed = models.BooleanField(default=False)
