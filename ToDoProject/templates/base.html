@@ -26,7 +26,7 @@
     </form>
     <div class="navbar-nav">
         <div class="nav-item text-nowrap">
-            <a class="nav-link ps-3" href="{% url 'add_task' %}">+ Додати завдання</a>
+            <a class="nav-link ps-3 active" href="{% url 'add_task' %}">+ Додати завдання</a>
         </div>
     </div>
     <span class="navbar-text col-2" style="text-align: right">
@@ -40,7 +40,7 @@
     </span>
 </header>
 
-{% show_sidebar %}
+{% show_sidebar request %}
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="align-items-center pt-3 px-5">

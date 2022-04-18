@@ -5,6 +5,6 @@ register = template.Library()
 
 
 @register.inclusion_tag('main_app/inc/_sidebar.html')
-def show_sidebar():
+def show_sidebar(request):
     category = Category.objects.all()
-    return {'category': category}
+    return {'category': category, 'request': request}

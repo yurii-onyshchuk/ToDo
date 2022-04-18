@@ -4,27 +4,33 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'index' %}">
+                        {% url 'index' as index %}
+                        <a class="nav-link {% if index == request.path %}active{% endif %}" href="{% url 'index' %}">
                             <span data-feather="home"></span>
                             Всі завдання
                         </a>
                     </li>
                     {% for cat in category %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ cat.get_absolute_url }}">
+                            <a class="nav-link {% if cat.get_absolute_url == request.path %}active{% endif %}"
+                               href="{{ cat.get_absolute_url }}">
                                 <span data-feather="list"></span>
                                 {{ cat.title }}
                             </a>
                         </li>
                     {% endfor %}
                     <li class="nav-item">
-                        <a class="nav-link m-1" href="{% url 'add_category' %}">
+                        {% url 'add_category' as add_category %}
+                        <a class="nav-link m-1 {% if add_category == request.path %}active{% endif %}"
+                           href="{% url 'add_category' %}">
                             <span data-feather="plus"></span>
                             Додати категорію
                         </a>
                     </li>
                     <li class="nav-item border-top">
-                        <a class="nav-link ps-3" href="{% url 'performed_task' %}">
+                        {% url 'performed_task' as performed_task %}
+                        <a class="nav-link ps-3 {% if performed_task == request.path %}active{% endif %}"
+                           href="{% url 'performed_task' %}">
                             <span data-feather="check-circle"></span>
                             Виконані завдання
                         </a>
