@@ -3,146 +3,123 @@ from .models import Task, Category
 from .form import TaskForm, CategoryForm, UserRegisterForm, UserAuthenticationForm
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 
 
+@login_required()
 def task_list(request):
-    if request.user.is_authenticated:
-        title = 'Список завдань'
-        task_list = Task.objects.filter(user=request.user, performed=False)
-        return render(request, 'main_app/task_list.html', {'task_list': task_list, 'title': title})
-    else:
-        return redirect('user_login')
+    title = 'Список завдань'
+    task_list = Task.objects.filter(user=request.user, performed=False)
+    return render(request, 'main_app/task_list.html', {'task_list': task_list, 'title': title})
 
 
+@login_required()
 def task_by_catagory(request, pk):
-    if request.user.is_authenticated:
-        title = Category.objects.get(user=request.user, pk=pk)
-        task_list = Task.objects.filter(user=request.user, category_id=pk, performed=False)
-        return render(request, 'main_app/task_by_category.html', {'task_list': task_list, 'title': title})
-    else:
-        return redirect('user_login')
+    title = Category.objects.get(user=request.user, pk=pk)
+    task_list = Task.objects.filter(user=request.user, category_id=pk, performed=False)
+    return render(request, 'main_app/task_by_category.html', {'task_list': task_list, 'title': title})
 
 
+@login_required()
 def add_task(request):
-    if request.user.is_authenticated:
-        title = 'Додати завдання'
-        if request.method == "POST":
-            form = TaskForm(request.POST)
-            if form.is_valid():
-                task = form.save(commit=False)
-                task.user = request.user
-                task.save()
-                return redirect('index')
-        else:
-            form = TaskForm()
-            form.fields['category'].queryset = Category.objects.filter(user=request.user)
-        return render(request, 'main_app/add_task.html', {'form': form, 'title': title})
+    title = 'Додати завдання'
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.user = request.user
+            task.save()
+            return redirect('index')
     else:
-        return redirect('user_login')
+        form = TaskForm()
+        form.fields['category'].queryset = Category.objects.filter(user=request.user)
+    return render(request, 'main_app/add_task.html', {'form': form, 'title': title})
 
 
+@login_required()
 def delete_task(request, pk):
-    if request.user.is_authenticated:
-        Task.objects.get(user=request.user, id=pk).delete()
-        return redirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect('user_login')
+    Task.objects.get(user=request.user, id=pk).delete()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required()
 def perform_task(request, pk):
-    if request.user.is_authenticated:
-        task = Task.objects.get(user=request.user, id=pk)
-        task.performed = True
-        task.save()
-        return redirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect('user_login')
+    task = Task.objects.get(user=request.user, id=pk)
+    task.performed = True
+    task.save()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required()
 def performed_task(request):
-    if request.user.is_authenticated:
-        title = "Виконані завдання"
-        task_list = Task.objects.filter(user=request.user, performed=True)
-        return render(request, 'main_app/task_list.html', {'task_list': task_list, 'title': title})
-    else:
-        return redirect('user_login')
+    title = "Виконані завдання"
+    task_list = Task.objects.filter(user=request.user, performed=True)
+    return render(request, 'main_app/task_list.html', {'task_list': task_list, 'title': title})
 
 
+@login_required()
 def recovery_task(request, pk):
-    if request.user.is_authenticated:
-        task = Task.objects.get(user=request.user, id=pk)
-        task.performed = False
-        task.save()
-        return redirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect('user_login')
+    task = Task.objects.get(user=request.user, id=pk)
+    task.performed = False
+    task.save()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required()
 def edit_task(request, pk):
-    if request.user.is_authenticated:
-        title = 'Редагування завдання'
-        task = Task.objects.get(user=request.user, pk=pk)
-        if request.method == 'POST':
-            form = TaskForm(request.POST, instance=task)
-            if form.is_valid():
-                task = form.save(commit=False)
-                task.save()
-                return redirect('index')
-        else:
-            form = TaskForm({'title': task.title, 'text': task.text, 'category': task.category})
-        return render(request, 'main_app/edit_task.html', {'title': title, 'form': form, 'task': task})
+    title = 'Редагування завдання'
+    task = Task.objects.get(user=request.user, pk=pk)
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.save()
+            return redirect('index')
     else:
-        return redirect('user_login')
+        form = TaskForm({'title': task.title, 'text': task.text, 'category': task.category})
+    return render(request, 'main_app/edit_task.html', {'title': title, 'form': form, 'task': task})
 
 
+@login_required()
 def add_category(request):
-    if request.user.is_authenticated:
-        title = 'Додати категорію'
-        if request.method == 'POST':
-            form = CategoryForm(request.POST)
-            if form.is_valid():
-                category = form.save()
-                category.user = request.user
-                category.save()
-                return redirect('index')
-        else:
-            form = CategoryForm()
-        return render(request, 'main_app/add_category.html', {'title': title, 'form': form, })
+    title = 'Додати категорію'
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category = form.save()
+            category.user = request.user
+            category.save()
+            return redirect('index')
     else:
-        return redirect('user_login')
+        form = CategoryForm()
+    return render(request, 'main_app/add_category.html', {'title': title, 'form': form, })
 
 
+@login_required()
 def edit_category(request, pk):
-    if request.user.is_authenticated:
-        title = 'Редагування категорії'
-        category = Category.objects.get(user=request.user, pk=pk)
-        if request.method == 'POST':
-            form = CategoryForm(request.POST, instance=category)
-            if form.is_valid():
-                category = form.save()
-                category.save()
-                return redirect('task_by_category', pk)
-        else:
-            form = CategoryForm({'title': category.title})
-        return render(request, 'main_app/edit_category.html', {'title': title, 'form': form, })
+    title = 'Редагування категорії'
+    category = Category.objects.get(user=request.user, pk=pk)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            category = form.save()
+            category.save()
+            return redirect('task_by_category', pk)
     else:
-        return redirect('user_login')
+        form = CategoryForm({'title': category.title})
+    return render(request, 'main_app/edit_category.html', {'title': title, 'form': form, })
 
 
+@login_required()
 def delete_category(request, pk):
-    if request.user.is_authenticated:
-        Category.objects.get(pk=pk).delete()
-        return redirect('index')
-    else:
-        return redirect('user_login')
+    Category.objects.get(pk=pk).delete()
+    return redirect('index')
 
 
+@login_required()
 def search(request):
-    if request.user.is_authenticated:
-        task_list = Task.objects.filter(user=request.user, title__icontains=request.GET.get('s'))
-        return render(request, 'main_app/search.html', {'task_list': task_list})
-    else:
-        return redirect('user_login')
+    task_list = Task.objects.filter(user=request.user, title__icontains=request.GET.get('s'))
+    return render(request, 'main_app/search.html', {'task_list': task_list})
 
 
 def user_register(request):
