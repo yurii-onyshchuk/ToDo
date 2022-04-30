@@ -16,7 +16,7 @@ class Task(models.Model):
         verbose_name_plural = 'Завдання'
 
     def __str__(self):
-        return f'{self.title}, {self.title}'
+        return self.title
 
 
 class Category(models.Model):
@@ -31,4 +31,4 @@ class Category(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('task_by_category', kwargs={'pk': self.pk})
+        return reverse('task-by-category', kwargs={'pk': self.pk})
