@@ -1,185 +1,189 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+
+from django.contrib import messages
+from django.contrib.auth import login
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+
+from django.views.generic.list import ListView
+from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
+
 from .models import Task, Category
 from .form import TaskForm, CategoryForm, UserRegisterForm, UserAuthenticationForm
-from django.contrib import messages
-from django.contrib.auth import login, logout
 
 
-def task_list(request):
-    if request.user.is_authenticated:
-        title = 'Список завдань'
-        task_list = Task.objects.filter(user=request.user, performed=False)
-        return render(request, 'main_app/task_list.html', {'task_list': task_list, 'title': title})
-    else:
-        return redirect('user_login')
+class UserRegister(FormView):
+    template_name = 'main_app/register.html'
+    form_class = UserRegisterForm
+    redirect_authenticated_user = True
+    success_url = reverse_lazy('tasks')
+
+    def get_context_data(self, **kwargs):
+        context = super(UserRegister, self).get_context_data()
+        context['title'] = 'Реєстрація'
+        return context
+
+    def form_valid(self, form):
+        user = form.save()
+        if user is not None:
+            login(self.request, user)
+            messages.success(self.request, 'Успішна реєстрація!')
+        return super(UserRegister, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Помилка реєстрації!')
+        return super(UserRegister, self).form_invalid(form)
 
 
-def task_by_catagory(request, pk):
-    if request.user.is_authenticated:
-        title = Category.objects.get(user=request.user, pk=pk)
-        task_list = Task.objects.filter(user=request.user, category_id=pk, performed=False)
-        return render(request, 'main_app/task_by_category.html', {'task_list': task_list, 'title': title})
-    else:
-        return redirect('user_login')
+class UserLogin(LoginView):
+    template_name = 'main_app/login.html'
+    form_class = UserAuthenticationForm
+    redirect_authenticated_user = True
+
+    def get_context_data(self, **kwargs):
+        context = super(UserLogin, self).get_context_data()
+        context['title'] = 'Вхід'
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('tasks')
 
 
-def add_task(request):
-    if request.user.is_authenticated:
-        title = 'Додати завдання'
-        if request.method == "POST":
-            form = TaskForm(request.POST)
-            if form.is_valid():
-                task = form.save(commit=False)
-                task.user = request.user
-                task.save()
-                return redirect('index')
-        else:
-            form = TaskForm()
-            form.fields['category'].queryset = Category.objects.filter(user=request.user)
-        return render(request, 'main_app/add_task.html', {'form': form, 'title': title})
-    else:
-        return redirect('user_login')
+class TaskList(LoginRequiredMixin, ListView):
+    template_name = 'main_app/task_list.html'
+    context_object_name = 'task_list'
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user, performed=False)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Список завдань'
+        return context
 
 
-def delete_task(request, pk):
-    if request.user.is_authenticated:
-        Task.objects.get(user=request.user, id=pk).delete()
-        return redirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect('user_login')
+class TaskByCategory(LoginRequiredMixin, ListView):
+    template_name = 'main_app/task_by_category.html'
+    context_object_name = 'task_list'
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user, category__pk=self.kwargs['pk'], performed=False)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = Category.objects.get(user=self.request.user, pk=self.kwargs['pk'])
+        return context
 
 
+class PerformedTask(LoginRequiredMixin, ListView):
+    template_name = 'main_app/task_list.html'
+    context_object_name = 'task_list'
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user, performed=True)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Виконані завдання"
+        return context
+
+
+class SearchList(LoginRequiredMixin, ListView):
+    template_name = 'main_app/task_list.html'
+    context_object_name = 'task_list'
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user, title__icontains=self.request.GET.get('s'))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Пошук'
+        return context
+
+
+class AddTask(LoginRequiredMixin, CreateView):
+    model = Task
+    form_class = TaskForm
+    success_url = reverse_lazy('tasks')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(AddTask, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(AddTask, self).get_context_data()
+        context['title'] = 'Додати завдання'
+        return context
+
+
+@login_required()
 def perform_task(request, pk):
-    if request.user.is_authenticated:
-        task = Task.objects.get(user=request.user, id=pk)
-        task.performed = True
-        task.save()
-        return redirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect('user_login')
+    task = Task.objects.get(user=request.user, id=pk)
+    task.performed = True
+    task.save()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
-def performed_task(request):
-    if request.user.is_authenticated:
-        title = "Виконані завдання"
-        task_list = Task.objects.filter(user=request.user, performed=True)
-        return render(request, 'main_app/task_list.html', {'task_list': task_list, 'title': title})
-    else:
-        return redirect('user_login')
+class UpdateTask(LoginRequiredMixin, UpdateView):
+    model = Task
+    form_class = TaskForm
+    success_url = reverse_lazy('tasks')
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateTask, self).get_context_data()
+        context['title'] = 'Редагування завдання'
+        return context
 
 
+class DeleteTask(LoginRequiredMixin, DeleteView):
+    model = Task
+    success_url = reverse_lazy('tasks')
+
+    def get_context_data(self, **kwargs):
+        context = super(DeleteTask, self).get_context_data()
+        context['title'] = 'Видалення завдання'
+        return context
+
+
+@login_required()
 def recovery_task(request, pk):
-    if request.user.is_authenticated:
-        task = Task.objects.get(user=request.user, id=pk)
-        task.performed = False
-        task.save()
-        return redirect(request.META.get('HTTP_REFERER'))
-    else:
-        return redirect('user_login')
+    task = Task.objects.get(user=request.user, id=pk)
+    task.performed = False
+    task.save()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
-def edit_task(request, pk):
-    if request.user.is_authenticated:
-        title = 'Редагування завдання'
-        task = Task.objects.get(user=request.user, pk=pk)
-        if request.method == 'POST':
-            form = TaskForm(request.POST, instance=task)
-            if form.is_valid():
-                task = form.save(commit=False)
-                task.save()
-                return redirect('index')
-        else:
-            form = TaskForm({'title': task.title, 'text': task.text, 'category': task.category})
-        return render(request, 'main_app/edit_task.html', {'title': title, 'form': form, 'task': task})
-    else:
-        return redirect('user_login')
+class AddCategory(LoginRequiredMixin, CreateView):
+    model = Category
+    form_class = CategoryForm
+
+    def get_context_data(self, **kwargs):
+        context = super(AddCategory, self).get_context_data()
+        context['title'] = 'Додати категорію'
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(AddCategory, self).form_valid(form)
 
 
-def add_category(request):
-    if request.user.is_authenticated:
-        title = 'Додати категорію'
-        if request.method == 'POST':
-            form = CategoryForm(request.POST)
-            if form.is_valid():
-                category = form.save()
-                category.user = request.user
-                category.save()
-                return redirect('index')
-        else:
-            form = CategoryForm()
-        return render(request, 'main_app/add_category.html', {'title': title, 'form': form, })
-    else:
-        return redirect('user_login')
+class UpdateCategory(LoginRequiredMixin, UpdateView):
+    model = Category
+    form_class = CategoryForm
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateCategory, self).get_context_data()
+        context['title'] = 'Редагування категорії'
+        return context
 
 
-def edit_category(request, pk):
-    if request.user.is_authenticated:
-        title = 'Редагування категорії'
-        category = Category.objects.get(user=request.user, pk=pk)
-        if request.method == 'POST':
-            form = CategoryForm(request.POST, instance=category)
-            if form.is_valid():
-                category = form.save()
-                category.save()
-                return redirect('task_by_category', pk)
-        else:
-            form = CategoryForm({'title': category.title})
-        return render(request, 'main_app/edit_category.html', {'title': title, 'form': form, })
-    else:
-        return redirect('user_login')
+class DeleteCategory(LoginRequiredMixin, DeleteView):
+    model = Category
+    success_url = reverse_lazy('tasks')
 
-
-def delete_category(request, pk):
-    if request.user.is_authenticated:
-        Category.objects.get(pk=pk).delete()
-        return redirect('index')
-    else:
-        return redirect('user_login')
-
-
-def search(request):
-    if request.user.is_authenticated:
-        task_list = Task.objects.filter(user=request.user, title__icontains=request.GET.get('s'))
-        return render(request, 'main_app/search.html', {'task_list': task_list})
-    else:
-        return redirect('user_login')
-
-
-def user_register(request):
-    if not request.user.is_authenticated:
-        title = 'Реєстрація'
-        if request.method == 'POST':
-            form = UserRegisterForm(request.POST)
-            if form.is_valid():
-                user = form.save()
-                login(request, user)
-                messages.success(request, 'Успішна реєстрація!')
-                return redirect('index')
-            else:
-                messages.error(request, 'Помилка реєстрації!')
-        else:
-            form = UserRegisterForm()
-        return render(request, 'main_app/register.html', {'title': title, 'form': form})
-    else:
-        return redirect('index')
-
-
-def user_login(request):
-    if not request.user.is_authenticated:
-        title = 'Вхід'
-        if request.method == 'POST':
-            form = UserAuthenticationForm(data=request.POST)
-            if form.is_valid():
-                user = form.get_user()
-                login(request, user)
-                return redirect('index')
-        else:
-            form = UserAuthenticationForm()
-        return render(request, 'main_app/login.html', {'title': title, 'form': form})
-    else:
-        return redirect('index')
-
-
-def user_logout(request):
-    logout(request)
-    return redirect('user_login')
+    def get_context_data(self, **kwargs):
+        context = super(DeleteCategory, self).get_context_data()
+        context['title'] = 'Видалити категорію'
+        return context

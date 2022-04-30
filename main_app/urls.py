@@ -15,21 +15,27 @@ Including another URLconf
 """
 from django.urls import path
 from . import views
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
-    path('', views.task_list, name='index'),
-    path('add_task', views.add_task, name='add_task'),
-    path('delete_task/<int:pk>/', views.delete_task, name='delete_task'),
-    path('perform_task/<int:pk>/', views.perform_task, name='perform_task'),
-    path('recovery_task/<int:pk>/', views.recovery_task, name='recovery_task'),
-    path('edit_task/<int:pk>', views.edit_task, name='edit_task'),
-    path('category/<int:pk>', views.task_by_catagory, name='task_by_category'),
-    path('performed_task', views.performed_task, name='performed_task'),
-    path('add_category', views.add_category, name='add_category'),
-    path('edit_category/<int:pk>', views.edit_category, name='edit_category'),
-    path('delete_category/<int:pk>', views.delete_category, name='delete_category'),
-    path('register', views.user_register, name='user_register'),
-    path('login', views.user_login, name='user_login'),
-    path('logout', views.user_logout, name='user_logout'),
-    path('search/', views.search, name='search'),
+    path('register/', views.UserRegister.as_view(), name='register'),
+    path('login/', views.UserLogin.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+
+    path('', views.TaskList.as_view(), name='tasks'),
+    path('category/<int:pk>/', views.TaskByCategory.as_view(), name='task-by-category'),
+    path('performed/', views.PerformedTask.as_view(), name='performed-task'),
+    path('search/', views.SearchList.as_view(), name='search'),
+
+    path('add_task/', views.AddTask.as_view(), name='add-task'),
+    path('perform_task/<int:pk>/', views.perform_task, name='perform-task'),
+    path('update_task/<int:pk>/', views.UpdateTask.as_view(), name='edit-task'),
+    path('delete_task/<int:pk>/', views.DeleteTask.as_view(), name='delete-task'),
+    path('recovery_task/<int:pk>/', views.recovery_task, name='recovery-task'),
+
+    path('add_category/', views.AddCategory.as_view(), name='add-category'),
+    path('update_category/<int:pk>/', views.UpdateCategory.as_view(), name='update-category'),
+    path('delete_category/<int:pk>/', views.DeleteCategory.as_view(), name='delete-category'),
+
+
 ]

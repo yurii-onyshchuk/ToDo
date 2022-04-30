@@ -1,45 +1,26 @@
 {% extends 'base.html' %}
 
 {% block title %}{{ title }}: {{ block.super }}{% endblock %}
+
 {% block content %}
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="align-items-center pt-3 pb-2 mb-3 ms-5 me-5">
-            <h1 class="Main-head">{{ title }}</h1>
-            {% for task in task_list %}
-                <div class="task border-bottom">
-                    <ul style="margin-bottom: 0">
-                        <li class="task_title">{{ task.title }}</li>
-                    </ul>
-                    {% if task.category %}
-                        <a class="task_category" href="{{ task.category.get_absolute_url }}"> {{ task.category }} </a>
-                    {% endif %}
-                    <p class="task_text"> {{ task.text }}</p>
-                    {% if task.performed %}
-                        <p class="task_text" style="color:red" >Виконано!</p>
-                    {% endif %}
-                    <div class="task_button">
-                        {% if task.performed %}
-                            <a id="task_ready" href="{% url 'recovery_task' task.id %}" data-bs-toggle="tooltip"
-                               data-bs-html="true" title="Відновити завдання"><span
-                                    data-feather="corner-up-left"></span></a>
-                        {% else %}
-                            <a id="task_ready" href="{% url 'perform_task' task.id %}" data-bs-toggle="tooltip"
-                               data-bs-html="true" title="Виконати завдання"><span
-                                    data-feather="check"></span></a>
-                        {% endif %}
-                        <a id="task_edit" href="{% url 'edit_task' task.id %}" data-bs-toggle="tooltip"
-                           data-bs-html="true" title="Редагувати завдання"><span
-                                data-feather="edit-3"></span></a>
-                        <a id="task_delete" href="{% url 'delete_task' task.id %}" data-bs-toggle="tooltip"
-                           data-bs-html="true" title="Видалити завдання"><span
-                                data-feather="trash"></span></a>
-
-
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </main>
+    <div class="align-items-center pt-3 pb-2 mb-3 ms-5 me-5">
+        <h1 class="Main-head">{{ title }}</h1>
+        {% for task in task_list %}
+            <div class="task border-bottom">
+                <ul style="margin-bottom: 0">
+                    <li class="task_title">{{ task.title }}</li>
+                </ul>
+                {% if task.category %}
+                    <a class="task_category" href="{{ task.category.get_absolute_url }}"> {{ task.category }} </a>
+                {% endif %}
+                <p class="task_text"> {{ task.text }}</p>
+                {% if task.performed %}
+                    <p class="task_text" style="color:red">Виконано!</p>
+                {% endif %}
+                {% include 'main_app/inc/_task_button.html' %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
 
 

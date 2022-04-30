@@ -4,8 +4,8 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        {% url 'index' as index %}
-                        <a class="nav-link {% if index == request.path %}active{% endif %}" href="{% url 'index' %}">
+                        {% url 'tasks' as index %}
+                        <a class="nav-link {% if index == request.path %}active{% endif %}" href="{% url 'tasks' %}">
                             <span data-feather="home"></span>
                             Всі завдання
                         </a>
@@ -20,17 +20,17 @@
                         </li>
                     {% endfor %}
                     <li class="nav-item">
-                        {% url 'add_category' as add_category %}
+                        {% url 'add-category' as add_category %}
                         <a class="nav-link m-1 {% if add_category == request.path %}active{% endif %}"
-                           href="{% url 'add_category' %}">
+                           href="{% url 'add-category' %}">
                             <span data-feather="plus"></span>
                             Додати категорію
                         </a>
                     </li>
                     <li class="nav-item border-top">
-                        {% url 'performed_task' as performed_task %}
+                        {% url 'performed-task' as performed_task %}
                         <a class="nav-link ps-3 {% if performed_task == request.path %}active{% endif %}"
-                           href="{% url 'performed_task' %}">
+                           href="{% url 'performed-task' %}">
                             <span data-feather="check-circle"></span>
                             Виконані завдання
                         </a>

@@ -1,7 +1,8 @@
 from django import forms
-from .models import Task, Category
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+
+from .models import Task, Category
 
 
 class TaskForm(forms.ModelForm):
@@ -23,7 +24,8 @@ class UserRegisterForm(UserCreationForm):
                                widget=forms.TextInput(attrs={'class': 'form-control', 'autofocus': 'None'}))
     email = forms.EmailField(label="E-mail", widget=forms.TextInput(attrs={'class': 'form-control'}))
     password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    password2 = forms.CharField(label="Підтвердження паролю", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password2 = forms.CharField(label="Підтвердження паролю",
+                                widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
