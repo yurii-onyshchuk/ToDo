@@ -115,6 +115,7 @@ class AddTask(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(AddTask, self).get_context_data()
         context['title'] = 'Додати завдання'
+        context['form'].fields['category'].queryset = Category.objects.filter(user=self.request.user)
         return context
 
 
