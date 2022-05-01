@@ -43,10 +43,15 @@
 
 #task_edit {
     color: #028c8c;
-    margin-left:2%;
+    margin-left: 2%;
 }
 
 #task_delete {
     color: red;
     margin-left: 2%;
+}
+
+.nav-item a {
+    display: flex;
+    justify-content: space-between;
 }
