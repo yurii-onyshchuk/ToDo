@@ -9,15 +9,20 @@
             <a id="task_edit" href="{% url 'update-category' category.pk %}">Редагувати категорію</a>
             <a id="task_delete" href="{% url 'delete-category' category.pk %}">Видалити категорію</a>
         </div>
-        {% for task in task_list %}
-            <div class="task border-bottom">
-                <ul style="margin-bottom: 0">
-                    <li class="task_title">{{ task.title }}</li>
-                </ul>
-                <p class="task_text"> {{ task.text }}</p>
-                {% include 'main_app/inc/_task_button.html' %}
-            </div>
-        {% endfor %}
+        {% if task_list %}
+            {% for task in task_list %}
+                <div class="task border-bottom">
+                    <ul style="margin-bottom: 0">
+                        <li class="task_title">{{ task.title }}</li>
+                    </ul>
+                    <p class="task_text"> {{ task.text }}</p>
+                    {% include 'main_app/inc/_task_button.html' %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no_task">На сьогодні всі завдання в категорії виконані.</p>
+            <a href="{% url 'add-task' %}">Додайте нове завдання!</a>
+        {% endif %}
     </div>
 {% endblock %}
 

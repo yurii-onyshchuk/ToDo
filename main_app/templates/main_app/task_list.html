@@ -5,21 +5,29 @@
 {% block content %}
     <div class="align-items-center pt-3 pb-2 mb-3 ms-5 me-5">
         <h1 class="Main-head">{{ title }}</h1>
-        {% for task in task_list %}
-            <div class="task border-bottom">
-                <ul style="margin-bottom: 0">
-                    <li class="task_title">{{ task.title }}</li>
-                </ul>
-                {% if task.category %}
-                    <a class="task_category" href="{{ task.category.get_absolute_url }}"> {{ task.category }} </a>
-                {% endif %}
-                <p class="task_text"> {{ task.text }}</p>
-                {% if task.performed %}
-                    <p class="task_text" style="color:red">Виконано!</p>
-                {% endif %}
-                {% include 'main_app/inc/_task_button.html' %}
-            </div>
-        {% endfor %}
+        {% if task_list %}
+            {% for task in task_list %}
+                <div class="task border-bottom">
+                    <ul style="margin-bottom: 0">
+                        <li class="task_title">{{ task.title }}</li>
+                    </ul>
+                    {% if task.category %}
+                        <a class="task_category" href="{{ task.category.get_absolute_url }}"> {{ task.category }} </a>
+                    {% endif %}
+                    <p class="task_text"> {{ task.text }}</p>
+                    {% if task.performed %}
+                        <p class="task_text" style="color:red">Виконано!</p>
+                    {% endif %}
+                    {% include 'main_app/inc/_task_button.html' %}
+                </div>
+            {% endfor %}
+            {% url 'performed-task' as performed_task %}
+        {% elif not task_list and not request.path != performed_task %}
+            <p class="no_task">На сьогодні всі завдання виконані.</p>
+            <a href="{% url 'add-task' %}">Додайте нове завдання!</a>
+        {% else %}
+            <p class="no_task">Виконаних завдань немає.</p>
+        {% endif %}
     </div>
 {% endblock %}
 
