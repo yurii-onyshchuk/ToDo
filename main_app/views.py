@@ -106,7 +106,6 @@ class SearchList(LoginRequiredMixin, ListView):
 class AddTask(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
-    success_url = reverse_lazy('tasks')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -117,6 +116,12 @@ class AddTask(LoginRequiredMixin, CreateView):
         context['title'] = 'Додати завдання'
         context['form'].fields['category'].queryset = Category.objects.filter(user=self.request.user)
         return context
+
+    def get_success_url(self):
+        if self.request.POST['category']:
+            return reverse_lazy('task-by-category', kwargs={'pk': self.request.POST['category'], })
+        else:
+            return reverse_lazy('tasks')
 
 
 @login_required()
