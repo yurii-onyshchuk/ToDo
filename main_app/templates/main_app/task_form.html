@@ -9,7 +9,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Зберегти</button>
-            <a href="../"><input type="button" name="Cancel" value="Скасувати"></a>
+            <a href="{% url 'tasks' %}"><input type="button" name="Cancel" value="Скасувати"></a>
         </form>
     </div>
 {% endblock %}
