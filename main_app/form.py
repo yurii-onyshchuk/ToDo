@@ -14,12 +14,20 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ('title', 'text', 'category')
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'text': forms.Textarea(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
+        }
 
 
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ('title',)
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'})
+        }
 
 
 class UserRegisterForm(UserCreationForm):
@@ -49,12 +57,6 @@ class UserRegisterForm(UserCreationForm):
 
 
 class UserSettingForm(forms.ModelForm):
-    first_name = forms.CharField(label="Ім'я", widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(label="Прізвище", widget=forms.TextInput(attrs={'class': 'form-control'}))
-    username = forms.CharField(label="Ім'я користувача",
-                               widget=forms.TextInput(attrs={'class': 'form-control', 'autofocus': 'None'}))
-    email = forms.EmailField(label="E-mail", widget=forms.TextInput(attrs={'class': 'form-control'}))
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({'autofocus': False})
@@ -69,6 +71,13 @@ class UserSettingForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email',)
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+        help_texts = {'username': ''}
 
 
 class UserPasswordChangeForm(PasswordChangeForm):
