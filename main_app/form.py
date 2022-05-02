@@ -6,6 +6,10 @@ from .models import Task, Category
 
 
 class TaskForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(TaskForm, self).__init__(*args, **kwargs)
+        self.fields['category'].empty_label = "--Без категорії--"
+
     class Meta:
         model = Task
         fields = ('title', 'text', 'category')
