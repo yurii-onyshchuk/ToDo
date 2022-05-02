@@ -8,7 +8,7 @@ class Task(models.Model):
     title = models.CharField(verbose_name='Назва', max_length=100)
     text = models.TextField(verbose_name='Опис', blank=True)
     created_data = models.DateTimeField(verbose_name='Дата створення', auto_now_add=True)
-    category = models.ForeignKey('Category', verbose_name='Категорія', on_delete=models.PROTECT, null=True, blank=True)
+    category = models.ForeignKey('Category', verbose_name='Категорія', on_delete=models.CASCADE, null=True, blank=True)
     performed = models.BooleanField(default=False)
 
     class Meta:
