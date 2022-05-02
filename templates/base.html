@@ -33,7 +33,8 @@
     {% endif %}
     <span class="navbar-text col-2" style="text-align: right">
         {% if request.user.is_authenticated %}
-            <span class="pe-2 navbar-text">Вітання, {{ request.user.first_name }}</span>
+            <span class="link-light">Вітання,</span>
+            <a class="pe-3 navbar-text" href="{% url 'setting' request.user.pk %}">{{ request.user.first_name }}</a>
             <a class="pe-2 navbar-text" href="{% url 'logout' %}">Вихід</a>
         {% else %}
             <a class="pe-2 navbar-text" href="{% url 'login' %}">Вхід</a>

@@ -7,7 +7,9 @@
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
+        <div class="pb-3">
+            <a href="{% url 'change-password' %}">Змінити пароль</a>
+        </div>
         <button type="submit">Зберегти</button>
-        <a href="{% url 'tasks' %}"><input type="button" name="Cancel" value="Скасувати"></a>
     </form>
 {% endblock %}

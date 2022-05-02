@@ -21,6 +21,8 @@ urlpatterns = [
     path('register/', views.UserRegister.as_view(), name='register'),
     path('login/', views.UserLogin.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    path('<int:pk>/setting/', views.UserSetting.as_view(), name='setting'),
+    path('change_password/', views.ChangePassword.as_view(), name='change-password'),
 
     path('', views.TaskList.as_view(), name='tasks'),
     path('category/<int:pk>/', views.TaskByCategory.as_view(), name='task-by-category'),
@@ -36,6 +38,5 @@ urlpatterns = [
     path('add_category/', views.AddCategory.as_view(), name='add-category'),
     path('update_category/<int:pk>/', views.UpdateCategory.as_view(), name='update-category'),
     path('delete_category/<int:pk>/', views.DeleteCategory.as_view(), name='delete-category'),
-
 
 ]

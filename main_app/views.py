@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 
 from django.contrib import messages
 from django.contrib.auth import login
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
@@ -11,7 +11,8 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 
 from .models import Task, Category
-from .form import TaskForm, CategoryForm, UserRegisterForm, UserAuthenticationForm
+from .form import TaskForm, CategoryForm, UserRegisterForm, UserAuthenticationForm, UserSettingForm, UserPasswordChangeForm
+from django.contrib.auth.models import User
 
 
 class UserRegister(FormView):
@@ -41,6 +42,20 @@ class UserLogin(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('tasks')
+
+
+class UserSetting(LoginRequiredMixin, UpdateView):
+    extra_context = {'title': 'Налаштування акаунту'}
+    model = User
+    form_class = UserSettingForm
+    template_name = 'main_app/user_form.html'
+    success_url = reverse_lazy('tasks')
+
+
+class ChangePassword(LoginRequiredMixin, PasswordChangeView):
+    extra_context = {'title': 'Зміна паролю'}
+    template_name = 'main_app/password_change.html'
+    form_class = UserPasswordChangeForm
 
 
 class TaskList(LoginRequiredMixin, ListView):
