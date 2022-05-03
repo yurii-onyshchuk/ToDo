@@ -11,13 +11,7 @@
         </div>
         {% if task_list %}
             {% for task in task_list %}
-                <div class="task border-bottom">
-                    <ul style="margin-bottom: 0">
-                        <li class="task_title">{{ task.title }}</li>
-                    </ul>
-                    <p class="task_text"> {{ task.text }}</p>
-                    {% include 'main_app/inc/_task_button.html' %}
-                </div>
+                {% include 'main_app/inc/_single_task_at_list.html' %}
             {% endfor %}
         {% else %}
             <p class="no_task">На сьогодні всі завдання в категорії виконані.</p>

@@ -1,0 +1,13 @@
+<div class="task border-bottom">
+    <ul style="margin-bottom: 0">
+        <li class="task_title">{{ task.title }}</li>
+    </ul>
+    {% if task.category %}
+        <a class="task_category" href="{{ task.category.get_absolute_url }}"> {{ task.category }} </a>
+    {% endif %}
+    <p class="task_text"> {{ task.text }}</p>
+    {% if task.performed %}
+        <p class="task_text" style="color:red">Виконано!</p>
+    {% endif %}
+    {% include 'main_app/inc/_task_button.html' %}
+</div>

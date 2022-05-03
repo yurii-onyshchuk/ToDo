@@ -11,7 +11,8 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 
 from .models import Task, Category
-from .form import TaskForm, CategoryForm, UserRegisterForm, UserAuthenticationForm, UserSettingForm, UserPasswordChangeForm
+from .form import TaskForm, CategoryForm, UserRegisterForm, UserAuthenticationForm, UserSettingForm, \
+    UserPasswordChangeForm
 from django.contrib.auth.models import User
 
 
@@ -59,7 +60,7 @@ class ChangePassword(LoginRequiredMixin, PasswordChangeView):
 
 
 class TaskList(LoginRequiredMixin, ListView):
-    extra_context = {'title': 'Список завдань'}
+    extra_context = {'title': 'Список завдань', 'task_performed': False}
     template_name = 'main_app/task_list.html'
     context_object_name = 'task_list'
 
@@ -68,6 +69,7 @@ class TaskList(LoginRequiredMixin, ListView):
 
 
 class TaskByCategory(LoginRequiredMixin, ListView):
+    extra_context = {'task_performed': False}
     template_name = 'main_app/task_by_category.html'
     context_object_name = 'task_list'
 
@@ -82,7 +84,7 @@ class TaskByCategory(LoginRequiredMixin, ListView):
 
 
 class PerformedTask(LoginRequiredMixin, ListView):
-    extra_context = {'title': "Виконані завдання"}
+    extra_context = {'title': "Виконані завдання", 'task_performed': True}
     template_name = 'main_app/task_list.html'
     context_object_name = 'task_list'
 
@@ -92,7 +94,7 @@ class PerformedTask(LoginRequiredMixin, ListView):
 
 class SearchList(LoginRequiredMixin, ListView):
     extra_context = {'title': 'Пошук'}
-    template_name = 'main_app/task_list.html'
+    template_name = 'main_app/search_task_list.html'
     context_object_name = 'task_list'
 
     def get_queryset(self):

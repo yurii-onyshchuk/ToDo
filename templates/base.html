@@ -20,51 +20,29 @@
 
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{% url 'tasks' %}">ToDo List</a>
-    {% if request.user.is_authenticated %}
-        <form class="w-100" action="{% url 'search' %}" method="get">
-            <input class="form-control form-control-dark" name="s" type="text" placeholder="Пошук" aria-label="Search">
-        </form>
-        <div class="navbar-nav">
-            <div class="nav-item text-nowrap">
-                <a class="nav-link ps-3 active" href="{% url 'add-task' %}">+ Додати завдання</a>
-            </div>
-        </div>
-    {% endif %}
-    <span class="navbar-text col-2" style="text-align: right">
-        {% if request.user.is_authenticated %}
-            <span class="link-light">Вітання,</span>
-            <a class="pe-3 navbar-text" href="{% url 'setting' request.user.pk %}">{{ request.user.first_name }}</a>
-            <a class="pe-2 navbar-text" href="{% url 'logout' %}">Вихід</a>
-        {% else %}
-            <a class="pe-2 navbar-text" href="{% url 'login' %}">Вхід</a>
-            <a class="pe-2 navbar-text" href="{% url 'register' %}">Реєстрація</a>
-        {% endif %}
-    </span>
+    {% include 'main_app/inc/_header.html' %}
 </header>
+
 {% if request.user.is_authenticated %}
     {% show_sidebar request %}
 {% endif %}
-<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+{% if messages %}
+    <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="align-items-center pt-3 px-5">
-        {% if messages %}
-
-            {% for message in messages %}
-
-                {% if message.tags == 'error' %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ message }}
-                    </div>
-                {% else %}
-                    <div class="alert alert-{{ message.tags }}" role="alert">
-                        {{ message }}
-                    </div>
-                {% endif %}
-
-            {% endfor %}
-
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
         {% endif %}
-    </div>
+    {% endfor %}
+{% endif %}
+</div>
 </div>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">

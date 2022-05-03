@@ -5,15 +5,17 @@
 {% block content %}
     <div class="align-items-center pt-3 pb-2 mb-3 ms-5 me-5">
         <h1 class="Main-head">{{ title }}</h1>
+        {% if task_list.count %}
+            <div class="no_task pb-3">
+                <p>Знайдено {{ task_list.count }} завдань</p>
+            </div>
+        {% endif %}
         {% for task in task_list %}
             {% include 'main_app/inc/_single_task_at_list.html' %}
         {% empty %}
-            {% if task_performed %}
-                <p class="no_task">Виконаних завдань немає.</p>
-            {% else %}
-                <p class="no_task">На сьогодні всі завдання виконані.</p>
-                <a href="{% url 'add-task' %}">Додайте нове завдання</a>
-            {% endif %}
+            <div class="no_task pb-3">
+                <p>Завдань за даним запитом не знайдено...</p>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
