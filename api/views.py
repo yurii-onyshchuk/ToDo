@@ -12,3 +12,11 @@ class TaskAPIViewSet(ModelViewSet):
 class CategoriesAPIViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+
+class TaskByCategoryAPIViewSet(ModelViewSet):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+    def get_queryset(self):
+        return Task.objects.filter(category__pk=self.kwargs['pk'], performed=False)

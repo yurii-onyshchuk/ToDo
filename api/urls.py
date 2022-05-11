@@ -20,7 +20,9 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register('tasks', views.TaskAPIViewSet)
 router.register('categories', views.CategoriesAPIViewSet)
+router.register('', views.TaskByCategoryAPIViewSet)
 
 urlpatterns = [
     path('v1/', include(router.urls)),
+    path('v1/category/<int:pk>/', include(router.urls)),
 ]
