@@ -13,19 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import path, include
 from . import views
+from rest_framework.routers import DefaultRouter
 
-"""
-A viewset that provides default `create()`, `retrieve()`, `update()`,
-`partial_update()`, `destroy()` and `list()` actions.
-"""
+router = DefaultRouter()
+router.register('tasks', views.TaskAPIViewSet)
 
 urlpatterns = [
-    path('tasks/', views.TaskAPIViewSet.as_view({'get': 'list',
-                                                 'post': 'create'})),
-    path('tasks/<int:pk>/', views.TaskAPIViewSet.as_view({'get': 'retrieve',
-                                                          'put': 'update',
-                                                          'patch': 'partial_update',
-                                                          'delete': 'destroy'})),
+    path('', include(router.urls)),
 ]
