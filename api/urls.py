@@ -16,7 +16,16 @@ Including another URLconf
 from django.urls import path
 from . import views
 
+"""
+A viewset that provides default `create()`, `retrieve()`, `update()`,
+`partial_update()`, `destroy()` and `list()` actions.
+"""
+
 urlpatterns = [
-    path('tasks/', views.TaskAPIView.as_view()),
-    path('tasks/<int:pk>/', views.TaskDetailAPIView.as_view()),
+    path('tasks/', views.TaskAPIViewSet.as_view({'get': 'list',
+                                                 'post': 'create'})),
+    path('tasks/<int:pk>/', views.TaskAPIViewSet.as_view({'get': 'retrieve',
+                                                          'put': 'update',
+                                                          'patch': 'partial_update',
+                                                          'delete': 'destroy'})),
 ]
