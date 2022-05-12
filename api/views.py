@@ -1,18 +1,24 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import viewsets
 from main_app.models import Task, Category
-from .serializers import TaskSerializer, CategorySerializer
+from .serializers import TaskSerializer, CategorySerializer, UserSerializer
+from django.contrib.auth.models import User, Group
 
 
-class TaskAPIViewSet(ModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class TaskAPIViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
 
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user, performed=False)
 
 
-class CategoriesAPIViewSet(ModelViewSet):
+class CategoriesAPIViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
     def get_queryset(self):
