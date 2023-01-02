@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'main_app/base_main_app.html' %}
 
 {% block title %}{{ title }}: {{ block.super }}{% endblock %}
 
-{% block content %}
+{% block main_content %}
     <div class="align-items-center pt-3 pb-2 mb-3 ms-5 me-5">
         <h1 class="Main-head">Завдання категорії "{{ category.title }}"</h1>
         <div style="display:flex; justify-content: end">
@@ -19,10 +19,3 @@
         {% endif %}
     </div>
 {% endblock %}
-
-
-
-
-
-
-

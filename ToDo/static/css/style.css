@@ -1,3 +1,66 @@
+.Main-head {
+    color: #1b1b1b;
+    font-family: 'Lobster';
+    text-align: center;
+}
+
+.task {
+
+}
+
+.task h2 {
+    margin-bottom: 0;
+}
+
+.task_title {
+    color: black;
+    font-size: large;
+    font-weight: bold;
+}
+
+.task_text {
+    color: dimgrey;
+    font-size: small;
+    margin-bottom: 0;
+}
+
+.task_category {
+    color: #2470dc;
+}
+
+.task_button {
+    margin-bottom: 10px;
+}
+
+.errorlist li {
+    color: red;
+}
+
+#task_ready {
+    color: #54c72d;
+    margin-left: 20%;
+}
+
+#task_edit {
+    color: #028c8c;
+    margin-left: 2%;
+}
+
+#task_delete {
+    color: red;
+    margin-left: 2%;
+}
+
+.nav-item a {
+    display: flex;
+    justify-content: space-between;
+}
+
+.no_task {
+    color: dimgrey;
+    font-size: medium;
+}
+
 body {
   font-size: .875rem;
 }
