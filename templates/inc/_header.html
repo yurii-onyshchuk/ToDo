@@ -1,21 +1,42 @@
-<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{% url 'tasks' %}">ToDo List</a>
-{% if request.user.is_authenticated %}
-    <form class="w-100" action="{% url 'search' %}" method="get">
-        <input class="form-control form-control-dark" name="s" type="text" placeholder="Пошук" aria-label="Search">
-    </form>
-    <div class="navbar-nav">
-        <div class="nav-item text-nowrap">
-            <a class="nav-link ps-3 active" href="{% url 'add-task' %}">+ Додати завдання</a>
+<nav class="navbar bg-body-tertiary">
+    <div class="container-md">
+        <div class="col">
+            <a class="navbar-brand" href="{% url 'tasks' %}">ToDoList</a>
+        </div>
+        <div class="col-8 col-sm-7 col-md-6 col-lg-4">
+            {% if request.user.is_authenticated %}
+                <div class="d-flex align-items-center">
+                    <form class="d-flex w-100" role="search" action="{% url 'search' %}" method="GET">
+                        <div class="input-group">
+                            <input class="form-control" name="s" type="text" placeholder="Пошук"
+                               aria-label="Search">
+                            <button type="submit" class="btn btn-dark">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="dropdown align-items-center ms-4 ms-sm-5 me-2 me-sm-4">
+                        <a class="user-link" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                            <i class="fa-regular fa-user"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><h6 class="dropdown-header font">{{ user.first_name }} {{ user.last_name }}</h6>
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'setting' request.user.pk %}">Особистий
+                                кабінет</a>
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}?next={{ request.path }}">Вийти з
+                                акаунту</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% else %}
+                <div class="text-end">
+                    <a class="pe-2 navbar-text" href="{% url 'login' %}?next={{ request.path }}">Вхід</a>
+                    <a class="pe-2 navbar-text" href="{% url 'register' %}">Реєстрація</a>
+                </div>
+            {% endif %}
         </div>
     </div>
-{% endif %}
-<span class="navbar-text col-2" style="text-align: right">
-    {% if request.user.is_authenticated %}
-        <span class="link-light">Вітання,</span>
-        <a class="pe-3 navbar-text" href="{% url 'setting' request.user.pk %}">{{ request.user.first_name }}</a>
-        <a class="pe-2 navbar-text" href="{% url 'logout' %}">Вихід</a>
-    {% else %}
-        <a class="pe-2 navbar-text" href="{% url 'login' %}">Вхід</a>
-        <a class="pe-2 navbar-text" href="{% url 'register' %}">Реєстрація</a>
-    {% endif %}
-</span>
+</nav>

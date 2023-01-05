@@ -1,53 +1,63 @@
 {% load sidebar %}
-<nav id="sidebarMenu" class="d-md-block bg-light sidebar collapse">
-    <div class="position-sticky pt-3">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                {% url 'tasks' as index %}
-                <a class="nav-link {% if index == request.path %}active{% endif %}"
-                   href="{% url 'tasks' %}">
-                    <div>
-                        <span data-feather="home"></span>
-                        <span> Всі завдання </span>
-                    </div>
-                    <span>{% get_task_amount request.user as amount %}
-                        {% if amount > 0 %}{{ amount }}{% endif %}</span>
-                </a>
-            </li>
-            {% for cat in category %}
-                <li class="nav-item">
-                    <a class="nav-link {% if cat.get_absolute_url == request.path %}active{% endif %}"
-                       href="{{ cat.get_absolute_url }}">
-                        <div>
-                            <span data-feather="list"></span>
-                            <span>{{ cat.title }} </span>
-                        </div>
-                        <span>{% get_task_amount request.user cat.pk as amount %}
+<aside class="sidebar">
+    <div class="offcanvas-sm offcanvas-bottom" tabindex="-1" id="CategoriesSidebar"
+         aria-labelledby="bdSidebarOffcanvasLabel">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title">Категорії завдань</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#CategoriesSidebar"></button>
+        </div>
+        <div class="offcanvas-body">
+            <nav class="links w-100" aria-label="Categories navigation">
+                <ul class="nav flex-column">
+                    <li class="nav-item border-bottom py-1">
+                        {% url 'tasks' as index %}
+                        <a class="nav-link {% if index == request.path %}active{% endif %}"
+                           href="{% url 'tasks' %}">
+                            <div>
+                                <span data-feather="home" class="me-1"></span>
+                                <span> Всі завдання </span>
+                            </div>
+                            <span>{% get_task_amount request.user as amount %}
+                                {% if amount > 0 %}{{ amount }}{% endif %}</span>
+                        </a>
+                    </li>
+                    {% for cat in category %}
+                        <li class="nav-item pt-1">
+                            <a class="nav-link {% if cat.get_absolute_url == request.path %}active{% endif %}"
+                               href="{{ cat.get_absolute_url }}">
+                                <div>
+                                    <span data-feather="list" class="me-1"></span>
+                                    <span>{{ cat.title }} </span>
+                                </div>
+                                <span>{% get_task_amount request.user cat.pk as amount %}
                                 {% if amount > 0 %}{{ amount }}{% endif %}
                                 </span>
-                    </a>
-                </li>
-            {% endfor %}
-            <li class="nav-item">
-                {% url 'add-category' as add_category %}
-                <a class="nav-link m-1 {% if add_category == request.path %}active{% endif %}"
-                   href="{% url 'add-category' %}">
-                    <div>
-                        <span data-feather="plus"></span>
-                        <span>Додати категорію</span>
-                    </div>
-                </a>
-            </li>
-            <li class="nav-item border-top">
-                {% url 'performed-task' as performed_task %}
-                <a class="nav-link ps-3 {% if performed_task == request.path %}active{% endif %}"
-                   href="{% url 'performed-task' %}">
-                    <div>
-                        <span data-feather="check-circle"></span>
-                        <span>Виконані завдання</span>
-                    </div>
-                </a>
-            </li>
-        </ul>
+                            </a>
+                        </li>
+                    {% endfor %}
+                    <li class="nav-item add-category py-1">
+                        {% url 'add-category' as add_category %}
+                        <a class="nav-link text-muted {% if add_category == request.path %}active{% endif %}"
+                           href="{% url 'add-category' %}">
+                            <div>
+                                <span data-feather="plus" class="me-1"></span>
+                                <span>Додати категорію</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item border-top py-1">
+                        {% url 'performed-task' as performed_task %}
+                        <a class="nav-link {% if performed_task == request.path %}active{% endif %}"
+                           href="{% url 'performed-task' %}">
+                            <div>
+                                <span data-feather="check-circle" class="me-1"></span>
+                                <span>Виконані завдання</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
-</nav>
+</aside>
