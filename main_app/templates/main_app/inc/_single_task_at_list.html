@@ -1,13 +1,35 @@
-<div class="task border-bottom">
-    <ul style="margin-bottom: 0">
-        <li class="task_title">{{ task.title }}</li>
-    </ul>
-    {% if task.category %}
-        <a class="task_category" href="{{ task.category.get_absolute_url }}"> {{ task.category }} </a>
-    {% endif %}
-    <p class="task_text"> {{ task.text }}</p>
-    {% if task.performed %}
-        <p class="task_text" style="color:red">Виконано!</p>
-    {% endif %}
-    {% include 'main_app/inc/_task_button.html' %}
-</div>
+<li class="card task my-2 shadow">
+    <div class="card-body row">
+        <div class="col">
+            <h6 class="task-title mb-0">{{ task.title }}</h6>
+            {% if task.category %}
+                <a class="task-category d-inline-block mt-2 mb-0" href="{{ task.category.get_absolute_url }}">
+                    {{ task.category }}
+                </a>
+            {% endif %}
+            {% if task.text %}
+                <p class="task-text mt-2 mb-0"> {{ task.text }}</p>
+            {% endif %}
+            {% if task.performed %}
+                <p class="task-text mt-2 mb-0" style="color:red">Виконано!</p>
+            {% endif %}
+        </div>
+        <div class="col-auto d-flex task-button align-items-center">
+            {% if task.performed %}
+                <a id="task-ready" href="{% url 'recovery-task' task.id %}" data-bs-toggle="tooltip"
+                   data-bs-html="true" title="Відновити завдання">
+                    <span data-feather="corner-up-left"></span></a>
+            {% else %}
+                <a id="task-ready" href="{% url 'perform-task' task.id %}" data-bs-toggle="tooltip"
+                   data-bs-html="true" title="Виконати завдання">
+                    <span data-feather="check"></span></a>
+            {% endif %}
+            <a id="task-edit" href="{% url 'edit-task' task.id %}" data-bs-toggle="tooltip"
+               data-bs-html="true" title="Редагувати завдання">
+                <span data-feather="edit-3" class="mx-4"></span></a>
+            <a id="task-delete" href="{% url 'delete-task' task.id %}" data-bs-toggle="tooltip"
+               data-bs-html="true" title="Видалити завдання">
+                <span data-feather="trash"></span></a>
+        </div>
+    </div>
+</li>

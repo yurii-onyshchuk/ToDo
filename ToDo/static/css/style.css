@@ -80,56 +80,34 @@
     text-align: center;
 }
 
-.task {
-
-}
-
-.task h2 {
-    margin-bottom: 0;
-}
-
-.task_title {
-    color: black;
-    font-size: large;
+.task-title {
     font-weight: bold;
 }
 
-.task_text {
+.task-text {
     color: dimgrey;
     font-size: small;
-    margin-bottom: 0;
 }
 
-.task_category {
+.task-category {
     color: #2470dc;
-}
-
-.task_button {
-    margin-bottom: 10px;
+    text-decoration: none;
 }
 
 .errorlist li {
     color: red;
 }
 
-#task_ready {
+#task-ready {
     color: #54c72d;
-    margin-left: 20%;
 }
 
-#task_edit {
+#task-edit {
     color: #028c8c;
-    margin-left: 2%;
 }
 
-#task_delete {
+#task-delete {
     color: red;
-    margin-left: 2%;
-}
-
-.no_task {
-    color: dimgrey;
-    font-size: medium;
 }
 
 body {

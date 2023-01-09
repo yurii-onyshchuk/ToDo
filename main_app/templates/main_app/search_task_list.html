@@ -3,19 +3,17 @@
 {% block title %}{{ title }}: {{ block.super }}{% endblock %}
 
 {% block main_content %}
-    <div class="align-items-center pt-3 pb-2 mb-3 ms-5 me-5">
-        <h1 class="Main-head">{{ title }}</h1>
-        {% if task_list.count %}
-            <div class="no_task pb-3">
-                <p>Знайдено {{ task_list.count }} завдань</p>
-            </div>
-        {% endif %}
+    <h1 class="Main-head">{{ title }}</h1>
+    {% if task_list.count %}
+        <div class="text-center">
+            <p>Знайдено {{ task_list.count }} завдань</p>
+        </div>
+    {% endif %}
+    <ul class="task-list list-unstyled">
         {% for task in task_list %}
             {% include 'main_app/inc/_single_task_at_list.html' %}
         {% empty %}
-            <div class="no_task pb-3">
-                <p>Завдань за даним запитом не знайдено...</p>
-            </div>
+            <p class="text-center"><p>Завдань за даним запитом не знайдено...</p>
         {% endfor %}
-    </div>
+    </ul>
 {% endblock %}
