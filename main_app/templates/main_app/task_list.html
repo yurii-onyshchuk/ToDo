@@ -1,9 +1,22 @@
 {% extends 'main_app/base_main_app.html' %}
 
 {% block main_content %}
-    <h1 class="Main-head mb-3">{{ title }}</h1>
+    <div class="text-center">
+        <h1 class="Main-head ps-2 mb-2">{{ title }}</h1>
+        {% if category %}
+            <button class="btn btn-link px-0 pt-2 float-end" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'update-category' category.pk %}"><i
+                        class="fa-solid fa-pen-to-square"></i> Редагувати категорію</a></li>
+                <li><a class="dropdown-item" href="{% url 'delete-category' category.pk %}"><i
+                        class="fa-solid fa-trash"></i> Видалити категорію</a></li>
+            </ul>
+        {% endif %}
+    </div>
     <div class="add-task text-center mb-3 d-none d-sm-block">
-        <a class="nav-link" href="{% url 'add-task' %}">
+        <a class="nav-link d-inline" href="{% url 'add-task' %}">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                  class="bi bi-plus-circle me-2" viewBox="0 0 16 16">
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -17,9 +30,9 @@
             {% include 'main_app/inc/_single_task_at_list.html' %}
         {% empty %}
             {% if task_performed %}
-                <p class="no_task">Виконаних завдань немає.</p>
+                <p class="text-center fw-bold">Виконаних завдань немає</p>
             {% else %}
-                <p class="no_task">Немає запланованих завдань.</p>
+                <p class="text-center fw-bold">Немає запланованих завдань</p>
             {% endif %}
         {% endfor %}
     </ul>

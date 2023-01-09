@@ -3,6 +3,14 @@
     transform: scale(1.03);
 }
 
+.btn-link{
+    color: #888888;
+}
+
+.btn-link:hover{
+    color: dimgrey;
+}
+
 /*
  * Navbar
  */
@@ -75,6 +83,7 @@
  */
 
 .Main-head {
+    display: inline-block;
     color: #1b1b1b;
     font-family: 'Lobster', serif;
     text-align: center;

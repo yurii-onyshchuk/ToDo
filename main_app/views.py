@@ -10,7 +10,7 @@ from .form import TaskForm, CategoryForm
 
 
 class TaskList(LoginRequiredMixin, ListView):
-    extra_context = {'title': 'Список завдань', 'task_performed': False}
+    extra_context = {'title': 'Всі завдання', 'task_performed': False}
     template_name = 'main_app/task_list.html'
     context_object_name = 'task_list'
 
@@ -20,7 +20,7 @@ class TaskList(LoginRequiredMixin, ListView):
 
 class TaskByCategory(LoginRequiredMixin, ListView):
     extra_context = {'task_performed': False}
-    template_name = 'main_app/task_by_category.html'
+    template_name = 'main_app/task_list.html'
     context_object_name = 'task_list'
 
     def get_queryset(self):
