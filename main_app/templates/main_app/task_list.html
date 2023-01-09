@@ -4,7 +4,8 @@
     <div class="text-center">
         <h1 class="Main-head ps-2 mb-2">{{ title }}</h1>
         {% if category %}
-            <button class="btn btn-link px-0 pt-2 float-end" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-link px-0 pt-2 float-end" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
                 <i class="fa-solid fa-pen-to-square"></i>
             </button>
             <ul class="dropdown-menu">
@@ -27,7 +28,7 @@
     </div>
     <ul class="task-list list-unstyled">
         {% for task in task_list %}
-            {% include 'main_app/inc/_single_task_at_list.html' %}
+            {% include 'main_app/inc/_single_task_at_list.html' with current_category=category %}
         {% empty %}
             {% if task_performed %}
                 <p class="text-center fw-bold">Виконаних завдань немає</p>

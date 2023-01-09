@@ -2,7 +2,7 @@
     <div class="card-body row">
         <div class="col">
             <h6 class="task-title mb-0">{{ task.title }}</h6>
-            {% if task.category %}
+            {% if task.category and not current_category %}
                 <a class="task-category d-inline-block mt-2 mb-0" href="{{ task.category.get_absolute_url }}">
                     {{ task.category }}
                 </a>
