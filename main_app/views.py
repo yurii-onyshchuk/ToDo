@@ -81,16 +81,25 @@ def perform_task(request, pk):
 
 
 class UpdateTask(LoginRequiredMixin, UpdateView):
-    extra_context = {'title': 'Редагування завдання'}
-    model = Task
     form_class = TaskForm
     success_url = reverse_lazy('tasks')
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateTask, self).get_context_data()
+        context['title'] = 'Редагування завдання'
+        context['form'].fields['category'].queryset = Category.objects.filter(user=self.request.user)
+        return context
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
 
 
 class DeleteTask(LoginRequiredMixin, DeleteView):
     extra_context = {'title': 'Видалення завдання'}
-    model = Task
     success_url = reverse_lazy('tasks')
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
 
 
 @login_required()
@@ -113,11 +122,15 @@ class AddCategory(LoginRequiredMixin, CreateView):
 
 class UpdateCategory(LoginRequiredMixin, UpdateView):
     extra_context = {'title': 'Редагування категорії'}
-    model = Category
     form_class = CategoryForm
+
+    def get_queryset(self):
+        return Category.objects.filter(user=self.request.user)
 
 
 class DeleteCategory(LoginRequiredMixin, DeleteView):
     extra_context = {'title': 'Видалити категорію'}
-    model = Category
     success_url = reverse_lazy('tasks')
+
+    def get_queryset(self):
+        return Category.objects.filter(user=self.request.user)
