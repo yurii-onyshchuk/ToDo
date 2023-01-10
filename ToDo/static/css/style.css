@@ -3,12 +3,22 @@
     transform: scale(1.03);
 }
 
-.btn-link{
+.edit-category.btn-link {
     color: #888888;
 }
 
-.btn-link:hover{
+.edit-category.btn-link:hover,
+.edit-category.btn-link:focus,
+.edit-category.btn-link:active {
     color: dimgrey;
+}
+
+.dropdown-item:active {
+    background-color: #888888;
+}
+
+.btn-main{
+
 }
 
 /*
@@ -82,8 +92,7 @@
  * Main content
  */
 
-.Main-head {
-    display: inline-block;
+.page-title {
     color: #1b1b1b;
     font-family: 'Lobster', serif;
     text-align: center;

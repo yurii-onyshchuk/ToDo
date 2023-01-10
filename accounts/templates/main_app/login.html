@@ -3,16 +3,27 @@
 {% block title %}{{ title }}: {{ block.super }}{% endblock %}
 
 {% block content %}
-    <div class="align-items-center pt-3 pb-2 mb-3 px-5">
-        <h1 class="Main-head">{{ title }}</h1>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Ввійти</button>
-        </form>
-        <div class="mt-3">
-            <span>Немає акаунту?</span>
-            <a href="{% url 'register' %}"><input type="button" name="Cancel" value="Реєстрація"></a>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col text-center">
+                <h1 class="page-title">{{ title }}</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col col-sm-8 col-md-6 col-lg-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="row">
+                        <div class="col-lg">
+                            <button class="btn btn-dark w-100" type="submit">Ввійти</button>
+                        </div>
+                        <div class="col-lg align-self-center text-center my-3 my-sm-3 my-md-3 my-lg-0">
+                            <a href="{% url 'register' %}">Немає акаунту?</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -34,7 +34,7 @@ class TaskByCategory(LoginRequiredMixin, ListView):
 
 
 class PerformedTask(LoginRequiredMixin, ListView):
-    extra_context = {'title': "Виконані завдання", 'task_performed': True}
+    extra_context = {'title': "Виконані завдання", 'tasks_performed': True}
     template_name = 'main_app/task_list.html'
     context_object_name = 'task_list'
 
