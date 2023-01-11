@@ -28,7 +28,7 @@
 .navbar .navbar-brand:hover {
     font-family: 'Lobster', serif;
     font-weight: 500;
-    font-size: 30px;
+    font-size: 23px;
 }
 
 .navbar a {
@@ -96,6 +96,7 @@
     color: #1b1b1b;
     font-family: 'Lobster', serif;
     text-align: center;
+    font-size: xx-large;
 }
 
 .task-title {
@@ -105,6 +106,7 @@
 .task-text {
     color: dimgrey;
     font-size: small;
+    text-align: justify;
 }
 
 .task-category {
