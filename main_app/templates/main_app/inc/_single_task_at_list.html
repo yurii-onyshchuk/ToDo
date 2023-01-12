@@ -2,6 +2,9 @@
     <div class="card-body">
         <div class="row">
             <div class="col">
+                {% if task.date %}
+                    <p class="task-date mb-2"><i class="fa fa-calendar-alt me-2"></i>{{ task.date }}</p>
+                {% endif %}
                 <h6 class="task-title mb-0">{{ task.title }}</h6>
             </div>
             <div class="col-auto task-button d-block">

@@ -16,7 +16,7 @@
             </ul>
         {% endif %}
     </div>
-    {% if not tasks_performed %}
+    {% if not without_tasks_button %}
         <div class="add-task text-center mb-4 d-none d-sm-block">
             <a class="nav-link d-inline" href="{% url 'add-task' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

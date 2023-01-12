@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.utils.datetime_safe import datetime
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -10,7 +11,7 @@ from .form import TaskForm, CategoryForm
 
 
 class TaskList(LoginRequiredMixin, ListView):
-    extra_context = {'title': 'Всі завдання', 'task_performed': False}
+    extra_context = {'title': 'Всі завдання'}
     template_name = 'main_app/task_list.html'
     context_object_name = 'task_list'
 
@@ -18,8 +19,25 @@ class TaskList(LoginRequiredMixin, ListView):
         return Task.objects.filter(user=self.request.user, performed=False)
 
 
+class TodayTaskList(LoginRequiredMixin, ListView):
+    extra_context = {'title': 'Завдання на сьогодні'}
+    template_name = 'main_app/task_list.html'
+    context_object_name = 'task_list'
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user, date__date=datetime.today().date(), performed=False)
+
+
+class ExpiredTaskList(LoginRequiredMixin, ListView):
+    extra_context = {'title': 'Протерміновані завдання', 'without_tasks_button': True}
+    template_name = 'main_app/task_list.html'
+    context_object_name = 'task_list'
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user, date__lt=datetime.today(), performed=False)
+
+
 class TaskByCategory(LoginRequiredMixin, ListView):
-    extra_context = {'task_performed': False}
     template_name = 'main_app/task_list.html'
     context_object_name = 'task_list'
 
@@ -34,7 +52,7 @@ class TaskByCategory(LoginRequiredMixin, ListView):
 
 
 class PerformedTask(LoginRequiredMixin, ListView):
-    extra_context = {'title': "Виконані завдання", 'tasks_performed': True}
+    extra_context = {'title': "Виконані завдання", 'without_tasks_button': True}
     template_name = 'main_app/task_list.html'
     context_object_name = 'task_list'
 

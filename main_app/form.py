@@ -9,11 +9,13 @@ class TaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ('title', 'text', 'category')
+        fields = ('title', 'text', 'category', 'date')
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'text': forms.Textarea(attrs={'class': 'form-control', 'rows': '3'}),
             'category': forms.Select(attrs={'class': 'form-select'}),
+            'date': forms.DateTimeInput(attrs={'class': 'form-control', 'type': "datetime-local"},
+                                        format="%Y-%m-%dT%H:%M")
         }
 
 

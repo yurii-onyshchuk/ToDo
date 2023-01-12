@@ -17,7 +17,7 @@
     background-color: #888888;
 }
 
-.btn-main{
+.btn-main {
 
 }
 
@@ -96,14 +96,14 @@
     color: #1b1b1b;
     font-family: 'Lobster', serif;
     text-align: center;
-    font-size: xx-large;
 }
 
 .task-title {
     font-weight: bold;
+    font-size: small;
 }
 
-.task-text {
+.task-date, .task-text {
     color: dimgrey;
     font-size: small;
     text-align: justify;
@@ -111,6 +111,7 @@
 
 .task-category {
     color: #2470dc;
+    font-size: small;
     text-decoration: none;
 }
 

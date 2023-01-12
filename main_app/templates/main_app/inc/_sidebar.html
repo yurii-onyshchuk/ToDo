@@ -10,7 +10,7 @@
         <div class="offcanvas-body">
             <nav class="links w-100" aria-label="Categories navigation">
                 <ul class="nav flex-column">
-                    <li class="nav-item border-bottom py-1">
+                    <li class="nav-item py-1">
                         {% url 'tasks' as index %}
                         <a class="nav-link {% if index == request.path %}active{% endif %}"
                            href="{% url 'tasks' %}">
@@ -22,6 +22,32 @@
                                 {% if amount > 0 %}{{ amount }}{% endif %}</span>
                         </a>
                     </li>
+                    {% get_task_amount request.user expired=True as amount %}
+                    {% if amount > 0 %}
+                        <li class="nav-item pb-1">
+                            {% url 'expired' as index %}
+                            <a class="nav-link {% if index == request.path %}active{% endif %}"
+                               href="{% url 'expired' %}">
+                                <div>
+                                    <i class="bi bi-exclamation-square-fill me-1"></i>
+                                    <span> Протерміновані завдання </span>
+                                </div>
+                                <span class="fw-bold">{{ amount }}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item border-bottom pb-1">
+                        {% url 'today' as index %}
+                        <a class="nav-link {% if index == request.path %}active{% endif %}"
+                           href="{% url 'today' %}">
+                            <div>
+                                <i class="bi bi-calendar4-event me-1"></i>
+                                <span> Сьогодні </span>
+                            </div>
+                            <span>{% get_task_amount request.user today=True as amount %}
+                                {% if amount > 0 %}{{ amount }}{% endif %}</span>
+                        </a>
+                    </li>
                     {% for cat in category %}
                         <li class="nav-item pt-1">
                             <a class="nav-link {% if cat.get_absolute_url == request.path %}active{% endif %}"
@@ -30,7 +56,7 @@
                                     <span data-feather="list" class="me-1"></span>
                                     <span>{{ cat.title }} </span>
                                 </div>
-                                <span>{% get_task_amount request.user cat.pk as amount %}
+                                <span>{% get_task_amount request.user category=cat.pk as amount %}
                                 {% if amount > 0 %}{{ amount }}{% endif %}
                                 </span>
                             </a>

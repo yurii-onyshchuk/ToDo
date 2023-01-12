@@ -19,6 +19,8 @@ from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('', views.TaskList.as_view(), name='tasks'),
+    path('today/', views.TodayTaskList.as_view(), name='today'),
+    path('expired/', views.ExpiredTaskList.as_view(), name='expired'),
     path('category/<int:pk>/', views.TaskByCategory.as_view(), name='task-by-category'),
     path('performed/', views.PerformedTask.as_view(), name='performed-task'),
     path('search/', views.SearchList.as_view(), name='search'),
