@@ -81,6 +81,8 @@ class AddTask(LoginRequiredMixin, CreateView):
         context = super(AddTask, self).get_context_data()
         context['title'] = 'Додати завдання'
         context['form'].fields['category'].queryset = Category.objects.filter(user=self.request.user)
+        context['form'].fields['category'].empty_label = "Всі завдання"
+        context['form'].fields['category'].initial = self.request.GET.get('init_cat')
         return context
 
     def get_success_url(self):
