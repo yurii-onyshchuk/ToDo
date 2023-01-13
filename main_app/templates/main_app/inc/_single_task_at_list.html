@@ -1,13 +1,13 @@
 <li class="card task my-2 shadow">
     <div class="card-body">
         <div class="row">
-            <div class="col">
+            <div class="col d-flex align-items-center">
                 {% if task.planned_date %}
                     <p class="task-date mb-2"><i class="fa fa-calendar-alt me-2"></i>{{ task.planned_date }}</p>
                 {% endif %}
                 <h6 class="task-title mb-0">{{ task.title }}</h6>
             </div>
-            <div class="col-auto task-button d-block">
+            <div class="col-auto task-button d-flex align-items-center">
                 {% if task.performed_date %}
                     <a id="task-ready" href="{% url 'recovery-task' task.id %}" data-bs-toggle="tooltip"
                        data-bs-html="true" title="Відновити завдання">
@@ -20,9 +20,11 @@
                 <a id="task-edit" href="{% url 'edit-task' task.id %}" data-bs-toggle="tooltip"
                    data-bs-html="true" title="Редагувати завдання">
                     <span data-feather="edit-3" class="mx-4"></span></a>
-                <a id="task-delete" href="{% url 'delete-task' task.id %}" data-bs-toggle="tooltip"
-                   data-bs-html="true" title="Видалити завдання">
-                    <span data-feather="trash"></span></a>
+                <button id="task-delete" data-bs-toggle="modal" class="btn btn-link my-0 py-0 ps-0"
+                        data-bs-target="#task_delete_confirm_{{ task.id }}" title="Видалити завдання">
+                    <span data-feather="trash"></span>
+                </button>
+                {% include 'main_app/inc/_modal_task_delete_confirm.html' %}
             </div>
         </div>
         {% if task.category and not current_category %}
@@ -34,7 +36,7 @@
             <p class="task-description mt-2 mb-0"> {{ task.description }}</p>
         {% endif %}
         {% if task.performed_date %}
-            <p class="task-description mt-2 mb-0" style="color:red">Виконано!</p>
+            <p class="task-perform mt-2 mb-0">Виконано!</p>
         {% endif %}
     </div>
 </li>

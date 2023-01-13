@@ -9,11 +9,16 @@
                 <i class="fa-solid fa-pen-to-square"></i>
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'update-category' category.pk %}"><i
+                <li><a class="dropdown-item mb-1" href="{% url 'update-category' category.pk %}"><i
                         class="fa-solid fa-pen-to-square"></i> Редагувати категорію</a></li>
-                <li><a class="dropdown-item" href="{% url 'delete-category' category.pk %}"><i
-                        class="fa-solid fa-trash"></i> Видалити категорію</a></li>
+                <li>
+                    <button class="dropdown-item" id="category-delete" data-bs-toggle="modal"
+                            data-bs-target="#category_delete_confirm_{{ category.pk }}" title="Видалити категорію">
+                        <i class="fa-solid fa-trash me-2"></i>Видалити категорію
+                    </button>
+                </li>
             </ul>
+            {% include 'main_app/inc/_modal_category_delete_confirm.html' %}
         {% endif %}
     </div>
     {% if not without_add_task_button %}
@@ -28,6 +33,15 @@
                 Додати нове завдання
             </a>
         </div>
+    {% endif %}
+    {% url 'performed-task' as path %}
+    {% if task_list and path == request.path %}
+        <div class="text-end delete-performed-tasks mb-3">
+            <button type="button" title="Очистити список" class="btn btn-link btn-sm ps-0" data-bs-toggle="modal"
+                    data-bs-target="#performed_tasks_delete_confirm">Очистити список
+            </button>
+        </div>
+        {% include 'main_app/inc/_modal_performed_tasks_delete_confirm.html' %}
     {% endif %}
     <ul class="task-list list-unstyled">
         {% for task in task_list %}

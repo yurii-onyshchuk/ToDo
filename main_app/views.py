@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.datetime_safe import datetime
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView
 
 from .models import Task, Category
 from .form import TaskForm, CategoryForm
@@ -117,20 +117,26 @@ class UpdateTask(LoginRequiredMixin, UpdateView):
         return Task.objects.filter(user=self.request.user)
 
 
-class DeleteTask(LoginRequiredMixin, DeleteView):
-    extra_context = {'title': 'Видалення завдання'}
-    success_url = reverse_lazy('tasks')
+@login_required
+def delete_task(request, pk):
+    task = Task.objects.filter(user=request.user, id=pk)
+    task.delete()
+    return redirect(request.META.get('HTTP_REFERER'))
 
-    def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)
 
-
-@login_required()
+@login_required
 def recovery_task(request, pk):
     task = Task.objects.get(user=request.user, id=pk)
     task.performed_date = None
     task.save()
     return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def delete_performed_tasks(request):
+    tasks = Task.objects.filter(user=request.user, performed_date__isnull=False)
+    tasks.delete()
+    return redirect('tasks')
 
 
 class AddCategory(LoginRequiredMixin, CreateView):
@@ -151,9 +157,8 @@ class UpdateCategory(LoginRequiredMixin, UpdateView):
         return Category.objects.filter(user=self.request.user)
 
 
-class DeleteCategory(LoginRequiredMixin, DeleteView):
-    extra_context = {'title': 'Видалити категорію'}
-    success_url = reverse_lazy('tasks')
-
-    def get_queryset(self):
-        return Category.objects.filter(user=self.request.user)
+@login_required
+def delete_category(request, pk):
+    category = Category.objects.filter(user=request.user, id=pk)
+    category.delete()
+    return redirect('tasks')

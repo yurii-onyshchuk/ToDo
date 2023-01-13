@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.urls import path
 from . import views
-from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('', views.TaskList.as_view(), name='tasks'),
@@ -28,10 +27,11 @@ urlpatterns = [
     path('add_task', views.AddTask.as_view(), name='add-task'),
     path('perform_task/<int:pk>/', views.perform_task, name='perform-task'),
     path('update_task/<int:pk>/', views.UpdateTask.as_view(), name='edit-task'),
-    path('delete_task/<int:pk>/', views.DeleteTask.as_view(), name='delete-task'),
+    path('delete_task/<int:pk>/', views.delete_task, name='delete-task'),
     path('recovery_task/<int:pk>/', views.recovery_task, name='recovery-task'),
+    path('delete_performed_tasks/', views.delete_performed_tasks, name='delete-performed-tasks'),
 
     path('add_category/', views.AddCategory.as_view(), name='add-category'),
     path('update_category/<int:pk>/', views.UpdateCategory.as_view(), name='update-category'),
-    path('delete_category/<int:pk>/', views.DeleteCategory.as_view(), name='delete-category'),
+    path('delete_category/<int:pk>/', views.delete_category, name='delete-category'),
 ]

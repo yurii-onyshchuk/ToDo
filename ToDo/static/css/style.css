@@ -3,13 +3,14 @@
     transform: scale(1.03);
 }
 
-.edit-category.btn-link {
+.content .btn-link {
     color: #888888;
+    text-decoration: none;
 }
 
-.edit-category.btn-link:hover,
-.edit-category.btn-link:focus,
-.edit-category.btn-link:active {
+.content .btn-link:active,
+.content .btn-link:focus,
+.content .btn-link:hover {
     color: dimgrey;
 }
 
@@ -129,6 +130,15 @@
 
 #task-delete {
     color: red;
+}
+
+.task-perform {
+    color: red;
+}
+
+.delete-performed-tasks a {
+    text-decoration: none;
+    color: #888888;
 }
 
 body {

@@ -1,0 +1,20 @@
+<div class="modal fade" id="performed_tasks_delete_confirm" tabindex="-1"
+     aria-labelledby="performed_tasks_delete_ModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Очищення списку виконаних завдань</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Ви впевнені, що хочете очистити список виконаних завдань?<br>Цю дію неможливо відмінити</p>
+                <button type="button" class="btn btn-light me-1" data-bs-dismiss="modal" aria-label="Close">Скасувати
+                </button>
+                <form class="d-inline-block ms-1" action={% url 'delete-performed-tasks' %}>
+                    <input class="btn btn-dark" type="submit" value="Очистити"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
