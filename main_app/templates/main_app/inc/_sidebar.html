@@ -11,12 +11,11 @@
             <nav class="links w-100" aria-label="Categories navigation">
                 <ul class="nav flex-column">
                     <li class="nav-item py-1">
-                        {% url 'tasks' as index %}
-                        <a class="nav-link {% if index == request.path %}active{% endif %}"
-                           href="{% url 'tasks' %}">
-                            <div>
-                                <span data-feather="home" class="me-1"></span>
-                                <span> Всі завдання </span>
+                        {% url 'tasks' as path %}
+                        <a class="nav-link{% if path == request.path %} active{% endif %}" href="{% url 'tasks' %}">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-house-door{% if path == request.path %}-fill{% endif %}"></i>
+                                <span class="mx-3">Всі завдання</span>
                             </div>
                             <span>{% get_task_amount request.user as amount %}
                                 {% if amount > 0 %}{{ amount }}{% endif %}</span>
@@ -25,24 +24,24 @@
                     {% get_task_amount request.user expired=True as amount %}
                     {% if amount > 0 %}
                         <li class="nav-item pb-1">
-                            {% url 'expired' as index %}
-                            <a class="nav-link {% if index == request.path %}active{% endif %}"
+                            {% url 'expired' as path %}
+                            <a class="nav-link{% if path == request.path %} active{% endif %}"
                                href="{% url 'expired' %}">
-                                <div>
-                                    <i class="bi bi-exclamation-square-fill me-1"></i>
-                                    <span> Протерміновані завдання </span>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-exclamation-square{% if path == request.path %}-fill{% endif %}"></i>
+                                    <span class="mx-3">Протерміновані завдання</span>
                                 </div>
-                                <span class="fw-bold">{{ amount }}</span>
+                                <span>{{ amount }}</span>
                             </a>
                         </li>
                     {% endif %}
                     <li class="nav-item border-bottom pb-1">
-                        {% url 'today' as index %}
-                        <a class="nav-link {% if index == request.path %}active{% endif %}"
+                        {% url 'today' as path %}
+                        <a class="nav-link {% if path == request.path %}active{% endif %}"
                            href="{% url 'today' %}">
-                            <div>
-                                <i class="bi bi-calendar4-event me-1"></i>
-                                <span> Сьогодні </span>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-calendar-event{% if path == request.path %}-fill{% endif %}"></i>
+                                <span class="mx-3"> Сьогодні </span>
                             </div>
                             <span>{% get_task_amount request.user today=True as amount %}
                                 {% if amount > 0 %}{{ amount }}{% endif %}</span>
@@ -50,11 +49,11 @@
                     </li>
                     {% for cat in category %}
                         <li class="nav-item pt-1">
-                            <a class="nav-link {% if cat.get_absolute_url == request.path %}active{% endif %}"
+                            <a class="nav-link{% if cat.get_absolute_url == request.path %} active{% endif %}"
                                href="{{ cat.get_absolute_url }}">
-                                <div>
-                                    <span data-feather="list" class="me-1"></span>
-                                    <span>{{ cat.title }} </span>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-list-task"></i>
+                                    <span class="mx-3">{{ cat.title }}</span>
                                 </div>
                                 <span>{% get_task_amount request.user category=cat.pk as amount %}
                                 {% if amount > 0 %}{{ amount }}{% endif %}
@@ -63,22 +62,22 @@
                         </li>
                     {% endfor %}
                     <li class="nav-item add-category py-1">
-                        {% url 'add-category' as add_category %}
-                        <a class="nav-link text-muted {% if add_category == request.path %}active{% endif %}"
+                        {% url 'add-category' as path %}
+                        <a class="nav-link text-muted{% if path == request.path %} active{% endif %}"
                            href="{% url 'add-category' %}">
-                            <div>
-                                <span data-feather="plus" class="me-1"></span>
-                                <span>Додати категорію</span>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-plus fs-6"></i>
+                                <span class="mx-3">Додати категорію</span>
                             </div>
                         </a>
                     </li>
                     <li class="nav-item border-top py-1">
-                        {% url 'performed-task' as performed_task %}
-                        <a class="nav-link {% if performed_task == request.path %}active{% endif %}"
+                        {% url 'performed-task' as path %}
+                        <a class="nav-link {% if path == request.path %}active{% endif %}"
                            href="{% url 'performed-task' %}">
                             <div>
-                                <span data-feather="check-circle" class="me-1"></span>
-                                <span>Виконані завдання</span>
+                                <i class="bi bi-check-circle{% if path == request.path %}-fill{% endif %}"></i>
+                                <span class="mx-3">Виконані завдання</span>
                             </div>
                         </a>
                     </li>
