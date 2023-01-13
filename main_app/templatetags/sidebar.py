@@ -14,10 +14,10 @@ def show_sidebar(request):
 @register.simple_tag()
 def get_task_amount(user, category=None, today=False, expired=False):
     if category:
-        return Task.objects.filter(user=user, category__pk=category, performed=False).count()
+        return Task.objects.filter(user=user, category__pk=category, performed_date=None).count()
     elif today:
-        return Task.objects.filter(user=user, date__date=datetime.today().date(), performed=False).count()
+        return Task.objects.filter(user=user, planned_date__date=datetime.today().date(), performed_date=None).count()
     elif expired:
-        return Task.objects.filter(user=user, date__lt=datetime.today(), performed=False).count()
+        return Task.objects.filter(user=user, planned_date__lt=datetime.today(), performed_date=None).count()
     else:
-        return Task.objects.filter(user=user, performed=False).count()
+        return Task.objects.filter(user=user, performed_date=None).count()

@@ -2,13 +2,13 @@
     <div class="card-body">
         <div class="row">
             <div class="col">
-                {% if task.date %}
-                    <p class="task-date mb-2"><i class="fa fa-calendar-alt me-2"></i>{{ task.date }}</p>
+                {% if task.planned_date %}
+                    <p class="task-date mb-2"><i class="fa fa-calendar-alt me-2"></i>{{ task.planned_date }}</p>
                 {% endif %}
                 <h6 class="task-title mb-0">{{ task.title }}</h6>
             </div>
             <div class="col-auto task-button d-block">
-                {% if task.performed %}
+                {% if task.performed_date %}
                     <a id="task-ready" href="{% url 'recovery-task' task.id %}" data-bs-toggle="tooltip"
                        data-bs-html="true" title="Відновити завдання">
                         <span data-feather="corner-up-left"></span></a>
@@ -30,11 +30,11 @@
                 {{ task.category }}
             </a>
         {% endif %}
-        {% if task.text %}
-            <p class="task-text mt-2 mb-0"> {{ task.text }}</p>
+        {% if task.description %}
+            <p class="task-description mt-2 mb-0"> {{ task.description }}</p>
         {% endif %}
-        {% if task.performed %}
-            <p class="task-text mt-2 mb-0" style="color:red">Виконано!</p>
+        {% if task.performed_date %}
+            <p class="task-description mt-2 mb-0" style="color:red">Виконано!</p>
         {% endif %}
     </div>
 </li>

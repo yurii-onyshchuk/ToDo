@@ -17,7 +17,7 @@ class TaskList(LoginRequiredMixin, ListView):
     context_object_name = 'task_list'
 
     def get_queryset(self):
-        return sorting_tasks_queryset(Task.objects.filter(user=self.request.user, performed=False))
+        return sorting_tasks_queryset(Task.objects.filter(user=self.request.user, performed_date=None))
 
 
 class TodayTaskList(LoginRequiredMixin, ListView):
@@ -26,16 +26,17 @@ class TodayTaskList(LoginRequiredMixin, ListView):
     context_object_name = 'task_list'
 
     def get_queryset(self):
-        return Task.objects.filter(user=self.request.user, date__date=datetime.today().date(), performed=False)
+        return Task.objects.filter(user=self.request.user, planned_date__date=datetime.today().date(),
+                                   performed_date=None)
 
 
 class ExpiredTaskList(LoginRequiredMixin, ListView):
-    extra_context = {'title': 'Протерміновані завдання', 'without_tasks_button': True}
+    extra_context = {'title': 'Протерміновані завдання', 'without_add_task_button': True}
     template_name = 'main_app/task_list.html'
     context_object_name = 'task_list'
 
     def get_queryset(self):
-        return Task.objects.filter(user=self.request.user, date__lt=datetime.today(), performed=False)
+        return Task.objects.filter(user=self.request.user, planned_date__lt=datetime.today(), performed_date=None)
 
 
 class TaskByCategory(LoginRequiredMixin, ListView):
@@ -44,7 +45,7 @@ class TaskByCategory(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return sorting_tasks_queryset(
-            Task.objects.filter(user=self.request.user, category__pk=self.kwargs['pk'], performed=False))
+            Task.objects.filter(user=self.request.user, category__pk=self.kwargs['pk'], performed_date=None))
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -54,12 +55,12 @@ class TaskByCategory(LoginRequiredMixin, ListView):
 
 
 class PerformedTask(LoginRequiredMixin, ListView):
-    extra_context = {'title': "Виконані завдання", 'without_tasks_button': True}
+    extra_context = {'title': "Виконані завдання", 'without_add_task_button': True}
     template_name = 'main_app/task_list.html'
     context_object_name = 'task_list'
 
     def get_queryset(self):
-        return Task.objects.filter(user=self.request.user, performed=True)
+        return Task.objects.filter(user=self.request.user, performed_date__isnull=False).order_by('-performed_date')
 
 
 class SearchList(LoginRequiredMixin, ListView):
@@ -97,7 +98,7 @@ class AddTask(LoginRequiredMixin, CreateView):
 @login_required()
 def perform_task(request, pk):
     task = Task.objects.get(user=request.user, id=pk)
-    task.performed = True
+    task.performed_date = datetime.now()
     task.save()
     return redirect(request.META.get('HTTP_REFERER'))
 
@@ -127,7 +128,7 @@ class DeleteTask(LoginRequiredMixin, DeleteView):
 @login_required()
 def recovery_task(request, pk):
     task = Task.objects.get(user=request.user, id=pk)
-    task.performed = False
+    task.performed_date = None
     task.save()
     return redirect(request.META.get('HTTP_REFERER'))
 

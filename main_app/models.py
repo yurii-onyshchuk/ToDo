@@ -7,15 +7,15 @@ class Task(models.Model):
     user = models.ForeignKey(verbose_name='Користувач', to=User, on_delete=models.CASCADE, null=True, blank=True)
     category = models.ForeignKey('Category', verbose_name='Категорія', on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(verbose_name='Назва', max_length=100)
-    text = models.TextField(verbose_name='Опис', blank=True)
-    date = models.DateTimeField(verbose_name='Термін виконання', blank=True, null=True)
-    created_data = models.DateTimeField(verbose_name='Дата створення', auto_now_add=True)
-    performed = models.BooleanField(default=False)
+    description = models.TextField(verbose_name='Опис', blank=True)
+    planned_date = models.DateTimeField(verbose_name='Запланований час виконання', blank=True, null=True)
+    created_date = models.DateTimeField(verbose_name='Час створення', auto_now_add=True)
+    performed_date = models.DateTimeField(verbose_name='Час виконання', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Завдання'
         verbose_name_plural = 'Завдання'
-        ordering = ('date', '-created_data',)
+        ordering = ('planned_date', '-created_date',)
 
     def __str__(self):
         return self.title

@@ -16,9 +16,8 @@
             </ul>
         {% endif %}
     </div>
-    {% if not without_tasks_button %}
+    {% if not without_add_task_button %}
         <div class="add-task text-center mb-4 d-none d-sm-block">
-
             <a class="nav-link d-inline"
                href="{% url 'add-task' %}{% if category %}?init_cat={{ category.pk }}{% endif %}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -34,7 +33,8 @@
         {% for task in task_list %}
             {% include 'main_app/inc/_single_task_at_list.html' with current_category=category %}
         {% empty %}
-            {% if tasks_performed %}
+            {% url 'performed-task' as path %}
+            {% if path == request.path %}
                 <p class="text-center fw-bold">Виконаних завдань немає</p>
             {% else %}
                 <p class="text-center fw-bold">Немає запланованих завдань</p>

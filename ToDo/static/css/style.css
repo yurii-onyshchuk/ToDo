@@ -103,7 +103,7 @@
     font-size: small;
 }
 
-.task-date, .task-text {
+.task-date, .task-description {
     color: dimgrey;
     font-size: small;
     text-align: justify;
