@@ -15,7 +15,7 @@ class Task(models.Model):
     class Meta:
         verbose_name = 'Завдання'
         verbose_name_plural = 'Завдання'
-        ordering = ('-date', '-created_data',)
+        ordering = ('date', '-created_data',)
 
     def __str__(self):
         return self.title

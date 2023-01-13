@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Task, Category
 from .form import TaskForm, CategoryForm
+from .utils import sorting_tasks_queryset
 
 
 class TaskList(LoginRequiredMixin, ListView):
@@ -16,7 +17,7 @@ class TaskList(LoginRequiredMixin, ListView):
     context_object_name = 'task_list'
 
     def get_queryset(self):
-        return Task.objects.filter(user=self.request.user, performed=False)
+        return sorting_tasks_queryset(Task.objects.filter(user=self.request.user, performed=False))
 
 
 class TodayTaskList(LoginRequiredMixin, ListView):
@@ -42,7 +43,8 @@ class TaskByCategory(LoginRequiredMixin, ListView):
     context_object_name = 'task_list'
 
     def get_queryset(self):
-        return Task.objects.filter(user=self.request.user, category__pk=self.kwargs['pk'], performed=False)
+        return sorting_tasks_queryset(
+            Task.objects.filter(user=self.request.user, category__pk=self.kwargs['pk'], performed=False))
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
