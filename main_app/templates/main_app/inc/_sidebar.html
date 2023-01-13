@@ -7,7 +7,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
                     data-bs-target="#CategoriesSidebar"></button>
         </div>
-        <div class="offcanvas-body">
+        <div class="offcanvas-body py-1">
             <nav class="links w-100" aria-label="Categories navigation">
                 <ul class="nav flex-column">
                     <li class="nav-item py-1">
@@ -35,7 +35,7 @@
                             </a>
                         </li>
                     {% endif %}
-                    <li class="nav-item border-bottom pb-1">
+                    <li class="nav-item pb-1">
                         {% url 'today' as path %}
                         <a class="nav-link {% if path == request.path %}active{% endif %}"
                            href="{% url 'today' %}">
@@ -44,6 +44,18 @@
                                 <span class="mx-3"> Сьогодні </span>
                             </div>
                             <span>{% get_task_amount request.user today=True as amount %}
+                                {% if amount > 0 %}{{ amount }}{% endif %}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item border-bottom pb-1">
+                        {% url 'upcoming' as path %}
+                        <a class="nav-link {% if path == request.path %}active{% endif %}"
+                           href="{% url 'upcoming' %}">
+                            <div class="d-flex align-items-center">
+                               <i class="bi bi-calendar-week{% if path == request.path %}-fill{% endif %}"></i>
+                                <span class="mx-3"> Майбутні </span>
+                            </div>
+                            <span>{% get_task_amount request.user upcoming=True as amount %}
                                 {% if amount > 0 %}{{ amount }}{% endif %}</span>
                         </a>
                     </li>

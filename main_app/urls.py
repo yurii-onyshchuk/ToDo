@@ -19,6 +19,7 @@ from . import views
 urlpatterns = [
     path('', views.TaskList.as_view(), name='tasks'),
     path('today/', views.TodayTaskList.as_view(), name='today'),
+    path('upcoming/', views.UpcomingTaskList.as_view(), name='upcoming'),
     path('expired/', views.ExpiredTaskList.as_view(), name='expired'),
     path('category/<int:pk>/', views.TaskByCategory.as_view(), name='task-by-category'),
     path('performed/', views.PerformedTask.as_view(), name='performed-task'),

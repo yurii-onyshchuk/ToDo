@@ -1,3 +1,5 @@
+from itertools import chain
+
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,7 +10,6 @@ from django.views.generic.edit import CreateView, UpdateView
 
 from .models import Task, Category
 from .form import TaskForm, CategoryForm
-from .utils import sorting_tasks_queryset
 
 
 class TaskList(LoginRequiredMixin, ListView):
@@ -17,7 +18,7 @@ class TaskList(LoginRequiredMixin, ListView):
     context_object_name = 'task_list'
 
     def get_queryset(self):
-        return sorting_tasks_queryset(Task.objects.filter(user=self.request.user, performed_date=None))
+        return Task.objects.filter(user=self.request.user, performed_date=None).order_by('-created_date')
 
 
 class TodayTaskList(LoginRequiredMixin, ListView):
@@ -27,7 +28,17 @@ class TodayTaskList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user, planned_date__date=datetime.today().date(),
-                                   performed_date=None)
+                                   performed_date=None).order_by('planned_date')
+
+
+class UpcomingTaskList(LoginRequiredMixin, ListView):
+    extra_context = {'title': 'Майбутні завдання'}
+    template_name = 'main_app/task_list.html'
+    context_object_name = 'task_list'
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user, planned_date__isnull=False, performed_date=None).order_by(
+            'planned_date')
 
 
 class ExpiredTaskList(LoginRequiredMixin, ListView):
@@ -36,7 +47,8 @@ class ExpiredTaskList(LoginRequiredMixin, ListView):
     context_object_name = 'task_list'
 
     def get_queryset(self):
-        return Task.objects.filter(user=self.request.user, planned_date__lt=datetime.today(), performed_date=None)
+        return Task.objects.filter(user=self.request.user, planned_date__lt=datetime.today(),
+                                   performed_date=None).order_by('planned_date')
 
 
 class TaskByCategory(LoginRequiredMixin, ListView):
@@ -44,8 +56,9 @@ class TaskByCategory(LoginRequiredMixin, ListView):
     context_object_name = 'task_list'
 
     def get_queryset(self):
-        return sorting_tasks_queryset(
-            Task.objects.filter(user=self.request.user, category__pk=self.kwargs['pk'], performed_date=None))
+        queryset = Task.objects.filter(user=self.request.user, category__pk=self.kwargs['pk'], performed_date=None)
+        return list(chain(queryset.filter(planned_date__isnull=False).order_by('planned_date'),
+                          queryset.filter(planned_date__isnull=True).order_by('-created_date')))
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

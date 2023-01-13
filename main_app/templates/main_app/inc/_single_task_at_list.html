@@ -1,13 +1,13 @@
 <li class="card task my-2 shadow">
     <div class="card-body">
         <div class="row">
-            <div class="col d-flex align-items-center">
+            <div class="col">
                 {% if task.planned_date %}
                     <p class="task-date mb-2"><i class="fa fa-calendar-alt me-2"></i>{{ task.planned_date }}</p>
                 {% endif %}
-                <h6 class="task-title mb-0">{{ task.title }}</h6>
+                <h6 class="task-title mb-0 mt-1">{{ task.title }}</h6>
             </div>
-            <div class="col-auto task-button d-flex align-items-center">
+            <div class="col-auto task-button">
                 {% if task.performed_date %}
                     <a id="task-ready" href="{% url 'recovery-task' task.id %}" data-bs-toggle="tooltip"
                        data-bs-html="true" title="Відновити завдання">
@@ -20,7 +20,7 @@
                 <a id="task-edit" href="{% url 'edit-task' task.id %}" data-bs-toggle="tooltip"
                    data-bs-html="true" title="Редагувати завдання">
                     <span data-feather="edit-3" class="mx-4"></span></a>
-                <button id="task-delete" data-bs-toggle="modal" class="btn btn-link my-0 py-0 ps-0"
+                <button id="task-delete" data-bs-toggle="modal" class="btn btn-link m-0 p-0 mb-1" style="font-size: 0"
                         data-bs-target="#task_delete_confirm_{{ task.id }}" title="Видалити завдання">
                     <span data-feather="trash"></span>
                 </button>
