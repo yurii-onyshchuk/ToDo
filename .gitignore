@@ -2,3 +2,5 @@
 *.pyc
 *.sqlite3
 /static/
+.env.development
+.env.production

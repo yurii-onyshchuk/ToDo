@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm, \
+    SetPasswordForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
@@ -30,7 +31,30 @@ class UserRegisterForm(UserCreationForm):
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2',)
 
 
-class UserSettingForm(forms.ModelForm):
+class UserAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(label="Ім'я користувача",
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'autofocus': 'None'}))
+    password = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+
+class UserPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label="Старий пароль:", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    new_password1 = forms.CharField(label="Новий пароль:", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    new_password2 = forms.CharField(label="Новий пароль (підтвердження):",
+                                    widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+
+class UserSetPasswordForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field.widget.attrs.get('class'):
+                field.widget.attrs['class'] += ' form-control'
+            else:
+                field.widget.attrs['class'] = 'form-control'
+
+
+class UserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({'autofocus': False})
@@ -52,16 +76,3 @@ class UserSettingForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
         help_texts = {'username': ''}
-
-
-class UserPasswordChangeForm(PasswordChangeForm):
-    old_password = forms.CharField(label="Старий пароль:", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    new_password1 = forms.CharField(label="Новий пароль:", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    new_password2 = forms.CharField(label="Новий пароль (підтвердження):",
-                                    widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-
-
-class UserAuthenticationForm(AuthenticationForm):
-    username = forms.CharField(label="Ім'я користувача",
-                               widget=forms.TextInput(attrs={'class': 'form-control', 'autofocus': 'None'}))
-    password = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-control'}))

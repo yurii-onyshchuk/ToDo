@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ title }}: {{ block.super }}{% endblock %}
+{% block title %}{{ title }} :: {{ block.super }}{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -23,6 +23,11 @@
                         </div>
                     </div>
                 </form>
+                <div class="row">
+                    <div class="col-lg align-self-center text-center my-0 my-lg-3">
+                        <a href="{% url 'password_reset' %}">Забули пароль?</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

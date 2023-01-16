@@ -22,19 +22,21 @@
     {% include 'inc/_header.html' %}
 </header>
 {% if messages %}
-    <div class="error col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="align-items-center pt-3 px-5">
-            {% for message in messages %}
-                {% if message.tags == 'error' %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ message }}
-                    </div>
-                {% else %}
-                    <div class="alert alert-{{ message.tags }}" role="alert">
-                        {{ message }}
-                    </div>
-                {% endif %}
-            {% endfor %}
+    <div class="container-md errors max-w-1000">
+        <div class="row">
+            <div class="col">
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-{{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endif %}
