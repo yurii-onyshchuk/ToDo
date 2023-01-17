@@ -64,7 +64,7 @@
                             <a class="nav-link{% if cat.get_absolute_url == request.path %} active{% endif %}"
                                href="{{ cat.get_absolute_url }}">
                                 <div class="d-flex align-items-center">
-                                    <i class="bi bi-list-task"></i>
+                                    <i class="bi bi-list-check"></i>
                                     <span class="mx-3">{{ cat.title }}</span>
                                 </div>
                                 <span>{% get_task_amount request.user category=cat.pk as amount %}

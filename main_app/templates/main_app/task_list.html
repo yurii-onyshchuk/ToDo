@@ -6,15 +6,15 @@
         {% if category %}
             <button class="btn btn-link edit-category px-0 pt-2 me-2 me-sm-0 float-end" type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-pen-to-square"></i>
+                <i class="bi bi-pencil-square"></i>
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item mb-1" href="{% url 'update-category' category.pk %}"><i
-                        class="fa-solid fa-pen-to-square"></i> Редагувати категорію</a></li>
+                <li><a class="dropdown-item mb-1" href="{% url 'update-category' category.pk %}">
+                    <i class="bi bi-pencil-square me-2"></i>Редагувати категорію</a></li>
                 <li>
                     <button class="dropdown-item" id="category-delete" data-bs-toggle="modal"
                             data-bs-target="#category_delete_confirm_{{ category.pk }}" title="Видалити категорію">
-                        <i class="fa-solid fa-trash me-2"></i>Видалити категорію
+                        <i class="bi bi-trash me-2"></i>Видалити категорію
                     </button>
                 </li>
             </ul>
@@ -22,15 +22,10 @@
         {% endif %}
     </div>
     {% if not without_add_task_button %}
-        <div class="add-task text-center mb-4 d-none d-sm-block">
-            <a class="nav-link d-inline"
+        <div class="text-center d-none d-sm-block mb-4 mx-auto">
+            <a class="nav-link add-task d-inline-block"
                href="{% url 'add-task' %}{% if category %}?init_cat={{ category.pk }}{% endif %}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-plus-circle me-2" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                </svg>
-                Додати нове завдання
+                <i class="bi bi-plus-circle fs-6 me-2"></i><b>Додати нове завдання</b>
             </a>
         </div>
     {% endif %}

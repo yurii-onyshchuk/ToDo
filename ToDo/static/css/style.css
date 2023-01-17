@@ -3,6 +3,19 @@
 --------------------------------------------------------------*/
 .max-w-1000 {
     max-width: 1000px;
+    margin: 0 auto;
+}
+
+.layout-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 0 0.75rem;
+}
+
+.layout-task-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 0.75rem;
 }
 
 a, a:hover {

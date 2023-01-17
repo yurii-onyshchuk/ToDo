@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,12 +8,14 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, TemplateView
 from . import forms
+from .utils import RedirectAuthenticatedUserMixin
 
 
-class UserRegister(CreateView):
+class UserSignUp(RedirectAuthenticatedUserMixin, CreateView):
     extra_context = {'title': 'Реєстрація'}
-    template_name = 'accounts/register.html'
-    form_class = forms.UserRegisterForm
+    template_name = 'accounts/signup.html'
+    form_class = forms.UserSingUpForm
+    redirect_authenticated_user_url = reverse_lazy('tasks')
 
     def form_valid(self, form):
         user = form.save()
@@ -23,13 +26,13 @@ class UserRegister(CreateView):
 
     def form_invalid(self, form):
         messages.error(self.request, 'Помилка реєстрації!')
-        return super(UserRegister, self).form_invalid(form)
+        return super(UserSignUp, self).form_invalid(form)
 
 
 class UserAuthentication(LoginView):
     extra_context = {'title': 'Вхід'}
     template_name = 'accounts/login.html'
-    form_class = forms.UserAuthenticationForm
+    form_class = AuthenticationForm
     redirect_authenticated_user = True
     success_url = reverse_lazy('tasks')
 
@@ -45,7 +48,6 @@ class PersonalInfoUpdateView(LoginRequiredMixin, UpdateView):
                      'subtitle': 'Керуйте своїми особистими та контактними даними'}
     template_name = 'accounts/personal_cabinet/personal_info.html'
     form_class = forms.UserForm
-    model = User
 
     def get_queryset(self):
         return User.objects.filter(pk=self.request.user.pk)

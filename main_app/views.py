@@ -67,6 +67,7 @@ class PerformedTask(LoginRequiredMixin, ListView):
 
 class SearchList(LoginRequiredMixin, ListView):
     extra_context = {'title': 'Пошук'}
+    template_name = 'main_app/search_task_list.html'
 
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user, title__icontains=self.request.GET.get('s'))

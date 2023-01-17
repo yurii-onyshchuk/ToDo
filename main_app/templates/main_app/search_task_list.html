@@ -1,4 +1,5 @@
 {% extends 'main_app/base_main_app.html' %}
+{% load static %}
 
 {% block main_content %}
     <h1 class="page-title">{{ title }}</h1>
@@ -11,7 +12,10 @@
         {% for task in task_list %}
             {% include 'main_app/inc/_single_task_at_list.html' %}
         {% empty %}
-            <p class="text-center"><p>Завдань за даним запитом не знайдено...</p>
+            <div class="task-no-found text-center">
+                <img class="mt-2 mb-3" src="{% static 'img/task-not-found.png' %}" height="150px" alt="">
+                <h6>Завдань за даним запитом не знайдено...</h6>
+            </div>
         {% endfor %}
     </ul>
 {% endblock %}
