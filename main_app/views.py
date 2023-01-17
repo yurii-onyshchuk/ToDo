@@ -1,4 +1,6 @@
 from itertools import chain
+
+from django.db.models import Q
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -70,7 +72,8 @@ class SearchList(LoginRequiredMixin, ListView):
     template_name = 'main_app/search_task_list.html'
 
     def get_queryset(self):
-        return Task.objects.filter(user=self.request.user, title__icontains=self.request.GET.get('s'))
+        return Task.objects.filter(Q(user=self.request.user, title__icontains=self.request.GET.get('s')) |
+                                   Q(user=self.request.user, description__icontains=self.request.GET.get('s')))
 
 
 class AddTask(LoginRequiredMixin, TaskEditMixin, CreateView):
