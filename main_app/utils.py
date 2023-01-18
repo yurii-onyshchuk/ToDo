@@ -18,3 +18,9 @@ class TaskEditMixin:
             return reverse_lazy('task-by-category', kwargs={'pk': self.request.POST['category'], })
         else:
             return reverse_lazy('tasks')
+
+
+class AddUserToFormMixin:
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(AddUserToFormMixin, self).form_valid(form)

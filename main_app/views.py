@@ -10,7 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView
 
 from .models import Task, Category
 from .form import CategoryForm
-from .utils import TaskEditMixin
+from .utils import AddUserToFormMixin, TaskEditMixin
 
 
 class TaskList(LoginRequiredMixin, ListView):
@@ -68,21 +68,22 @@ class PerformedTask(LoginRequiredMixin, ListView):
 
 
 class SearchList(LoginRequiredMixin, ListView):
-    extra_context = {'title': 'Пошук'}
     template_name = 'main_app/search_task_list.html'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['title'] = 'Результати пошуку'
+        context['q'] = self.request.GET.get('q')
+        return context
+
     def get_queryset(self):
-        return Task.objects.filter(Q(user=self.request.user, title__icontains=self.request.GET.get('s')) |
-                                   Q(user=self.request.user, description__icontains=self.request.GET.get('s')))
+        return Task.objects.filter(Q(user=self.request.user, title__icontains=self.request.GET.get('q')) |
+                                   Q(user=self.request.user, description__icontains=self.request.GET.get('q')))
 
 
-class AddTask(LoginRequiredMixin, TaskEditMixin, CreateView):
+class AddTask(LoginRequiredMixin, TaskEditMixin, AddUserToFormMixin, CreateView):
     model = Task
     extra_context = {'title': 'Додати завдання'}
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(AddTask, self).form_valid(form)
 
 
 class UpdateTask(LoginRequiredMixin, TaskEditMixin, UpdateView):
@@ -122,14 +123,10 @@ def delete_performed_tasks(request):
     return redirect(request.META.get('HTTP_REFERER'))
 
 
-class AddCategory(LoginRequiredMixin, CreateView):
+class AddCategory(LoginRequiredMixin, AddUserToFormMixin, CreateView):
     extra_context = {'title': 'Додати категорію'}
     model = Category
     form_class = CategoryForm
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(AddCategory, self).form_valid(form)
 
 
 class UpdateCategory(LoginRequiredMixin, UpdateView):

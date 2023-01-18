@@ -1,6 +1,10 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+body {
+    font-size: 14px;
+}
+
 .max-w-1000 {
     max-width: 1000px;
     margin: 0 auto;
@@ -160,10 +164,6 @@ a, a:hover {
 .delete-performed-tasks a {
     text-decoration: none;
     color: #888888;
-}
-
-body {
-    font-size: .875rem;
 }
 
 .feather {

@@ -8,7 +8,8 @@
                 <div class="d-flex align-items-center">
                     <form class="d-flex w-100" role="search" action="{% url 'search' %}" method="GET">
                         <div class="input-group">
-                            <input required class="form-control" name="s" type="text" placeholder="Пошук" aria-label="Search">
+                            <input required class="form-control" type="search" name="q" value="{{ q }}"
+                                   aria-label="Search" placeholder="Пошук...">
                             <button type="submit" class="btn btn-dark"><i class="fas fa-search"></i></button>
                         </div>
                     </form>
@@ -17,7 +18,12 @@
                             <i class="fa-regular fa-user"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><h6 class="dropdown-header font">{{ user.first_name }} {{ user.last_name }}</h6>
+                            <li>
+                                {% if user.first_name and user.last_name %}
+                                    <h6 class="dropdown-header font">{{ user.first_name }} {{ user.last_name }}</h6>
+                                {% else %}
+                                    <h6 class="dropdown-header font">{{ user }}</h6>
+                                {% endif %}
                             </li>
                             <li><a class="dropdown-item" href="{% url 'personal_cabinet' %}">
                                 <i class="bi bi-person me-2 fs-6"></i>Особистий кабінет</a>
