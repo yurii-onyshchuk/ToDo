@@ -43,6 +43,13 @@ a, a:hover {
     transform: scale(1.03);
 }
 
+.toggle-search-button,
+.toggle-search-button:focus {
+    border: none;
+    box-shadow: none;
+    color: black;
+}
+
 .dropdown-item:active {
     background-color: #888888;
 }
@@ -62,10 +69,6 @@ a, a:hover {
     color: #000000;
 }
 
-.navbar a i {
-    font-size: larger;
-}
-
 .navbar .navbar-text {
     font-size: larger;
 }
@@ -74,8 +77,15 @@ a, a:hover {
     font-weight: 500;
 }
 
-.navbar i:hover {
-    transform: scale(1.2);
+.navbar i {
+    font-size: large;
+}
+
+body a i:hover,
+body a svg:hover,
+body button i:hover,
+body button svg:hover{
+    transform: scale(1.1);
 }
 
 /*--------------------------------------------------------------
