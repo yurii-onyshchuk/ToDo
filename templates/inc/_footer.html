@@ -1,10 +1,14 @@
 <div class="footer container-md d-flex fixed-bottom justify-content-around align-items-center d-sm-none">
     <div class="add-task">
-        <a class="nav-link" href="{% url 'tasks' %}"><i class="bi bi-house-door fs-2"></i></a>
+        {% url 'tasks' as path %}
+        <a class="nav-link" href="{% url 'tasks' %}">
+            <i class="bi bi-house-door{% if path == request.path %}-fill{% endif %} fs-2"></i>
+        </a>
     </div>
     <div class="add-task">
+        {% url 'add-task' as path %}
         <a class="nav-link" href="{% url 'add-task' %}{% if category %}?init_cat={{ category.pk }}{% endif %}">
-            <i class="bi bi-plus-circle fs-2 me-2"></i>
+            <i class="bi bi-plus-circle{% if path == request.path %}-fill{% endif %} fs-2"></i>
         </a>
     </div>
     <div class="d-flex sidebar-toggle">
