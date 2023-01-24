@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm bg-body-tertiary">
+<nav class="navbar navbar-expand-sm">
     <div class="container-md">
         <div class="col-6 col-sm">
             <a class="navbar-brand" href="{% url 'tasks' %}">ToDoList</a>
@@ -33,8 +33,11 @@
                                 <h6 class="dropdown-header font">{{ user }}</h6>
                             {% endif %}
                         </li>
-                        <li><a class="dropdown-item" href="{% url 'personal_cabinet' %}">
-                            <i class="bi bi-person me-2 fs-6"></i>Особистий кабінет</a>
+                        <li>
+                            {% url 'personal_cabinet' as path %}
+                            <a class="dropdown-item{% if path == request.path %} active{% endif %}"
+                               href="{% url 'personal_cabinet' %}">
+                                <i class="bi bi-person me-2 fs-6"></i>Особистий кабінет</a>
                         </li>
                         <li><a class="dropdown-item mt-1" href="{% url 'logout' %}?next={{ request.path }}">
                             <i class="bi bi-box-arrow-right me-2 fs-6"></i>Вийти з акаунту</a>
@@ -43,10 +46,16 @@
                 </div>
             </div>
         {% else %}
-            <div class="text-end">
-                <a class="btn btn-link px-2" href="{% url 'login' %}?next={{ request.path }}">Вхід</a>
-                <a class="btn btn-link px-2" href="{% url 'sign_up' %}">Реєстрація</a>
-            </div>
+            <ul class="nav navbar-nav ms-auto">
+                <li class="nav-item">
+                    {% url 'login' as path %}
+                    <a class="nav-link{% if path == request.path %} active{% endif %}" href="{% url 'login' %}">Вхід</a>
+                </li>
+                <li class="nav-item">
+                    {% url 'sign_up' as path %}
+                    <a class="nav-link{% if path == request.path %} active{% endif %}" href="{% url 'sign_up' %}">Реєстрація</a>
+                </li>
+            </ul>
         {% endif %}
     </div>
 </nav>

@@ -1,7 +1,9 @@
-{% extends 'main_app/base_main_app.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% block main_content %}
+{% block title %} {{ title }} :: {{ block.super }} {% endblock %}
+
+{% block content %}
     <h1 class="page-title">{{ title }}</h1>
     {% if task_list.count %}
         <div class="text-center">

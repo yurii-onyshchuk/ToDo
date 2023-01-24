@@ -1,7 +1,9 @@
-{% extends 'main_app/base_main_app.html' %}
+{% extends 'base.html' %}
 
-{% block main_content %}
-    <div class="text-center">
+{% block title %} {{ title }} :: {{ block.super }} {% endblock %}
+
+{% block content %}
+    <div class="page-title-area text-center">
         <h1 class="page-title d-inline-block ps-2 mb-3">{{ title }}</h1>
         {% if category %}
             <button class="btn btn-link edit-category px-0 pt-2 me-2 me-sm-0 float-end" type="button"
@@ -21,14 +23,16 @@
             {% include 'main_app/inc/_modal_category_delete_confirm.html' %}
         {% endif %}
     </div>
+
     {% if not without_add_task_button %}
-        <div class="text-center d-none d-sm-block mb-4 mx-auto">
+        <div class="add-task-area text-center d-none d-sm-block mb-4 mx-auto">
             <a class="nav-link add-task d-inline-block"
                href="{% url 'add-task' %}{% if category %}?init_cat={{ category.pk }}{% endif %}">
                 <i class="bi bi-plus-circle fs-6 me-2"></i><b>Додати нове завдання</b>
             </a>
         </div>
     {% endif %}
+
     {% url 'performed-task' as path %}
     {% if task_list and path == request.path %}
         <div class="text-end delete-performed-tasks mb-3">
@@ -38,6 +42,7 @@
         </div>
         {% include 'main_app/inc/_modal_performed_tasks_delete_confirm.html' %}
     {% endif %}
+
     <ul class="task-list list-unstyled">
         {% for task in task_list %}
             {% include 'main_app/inc/_single_task_at_list.html' with current_category=category %}

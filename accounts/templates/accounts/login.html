@@ -3,8 +3,8 @@
 
 {% block title %}{{ title }} :: {{ block.super }}{% endblock %}
 
-{% block content %}
-    <div class="layout-form">
+{% block full_width_content %}
+    <div class="layout-form px-3">
         <h1 class="page-title">{{ title }}</h1>
         <form method="POST">
             {% csrf_token %}

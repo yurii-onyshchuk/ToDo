@@ -1,7 +1,9 @@
-{% extends 'main_app/base_main_app.html' %}
+{% extends 'base.html' %}
 {% load crispy_forms_filters %}
 
-{% block main_content %}
+{% block title %} {{ title }} :: {{ block.super }} {% endblock %}
+
+{% block content %}
     <div class="layout-task-form">
         <h1 class="page-title">{{ title }}</h1>
         <form method="POST">
