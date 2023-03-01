@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% load sidebar %}
 {% load crispy_forms_filters %}
 
 {% block title %} {{ title }} :: {{ block.super }} {% endblock %}
+
+{% block sidebar %}{% show_sidebar request %}{% endblock %}
 
 {% block content %}
     <div class="layout-task-form">

@@ -14,6 +14,11 @@ body {
     margin: 0 auto;
 }
 
+.max-w-750 {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
 .layout-form {
     max-width: 400px;
     margin: 0 auto;

@@ -1,23 +1,28 @@
 {% extends 'base.html' %}
+{% load sidebar %}
 {% load static %}
 
 {% block title %} {{ title }} :: {{ block.super }} {% endblock %}
 
+{% block sidebar %}{% show_sidebar request %}{% endblock %}
+
 {% block content %}
-    <h1 class="page-title">{{ title }}</h1>
-    {% if task_list.count %}
-        <div class="text-center">
-            <p>Знайдено {{ task_list.count }} завдань</p>
-        </div>
-    {% endif %}
-    <ul class="task-list list-unstyled">
-        {% for task in task_list %}
-            {% include 'main_app/inc/_single_task_at_list.html' %}
-        {% empty %}
-            <div class="task-no-found text-center">
-                <img class="mt-2 mb-3" src="{% static 'img/tasks-not-found.png' %}" height="150px" alt="">
-                <h6>Завдань за даним запитом не знайдено...</h6>
+    <div class="max-w-750">
+        <h1 class="page-title">{{ title }}</h1>
+        {% if task_list.count %}
+            <div class="text-center">
+                <p>Знайдено {{ task_list.count }} завдань</p>
             </div>
-        {% endfor %}
-    </ul>
+        {% endif %}
+        <ul class="task-list list-unstyled">
+            {% for task in task_list %}
+                {% include 'main_app/inc/_single_task_at_list.html' %}
+            {% empty %}
+                <div class="task-no-found text-center">
+                    <img class="mt-2 mb-3" src="{% static 'img/tasks-not-found.png' %}" height="150px" alt="">
+                    <h6>Завдань за даним запитом не знайдено...</h6>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

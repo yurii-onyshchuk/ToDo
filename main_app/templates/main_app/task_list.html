@@ -1,58 +1,63 @@
 {% extends 'base.html' %}
+{% load sidebar %}
 
 {% block title %} {{ title }} :: {{ block.super }} {% endblock %}
 
+{% block sidebar %}{% show_sidebar request %}{% endblock %}
+
 {% block content %}
-    <div class="page-title-area text-center">
-        <h1 class="page-title d-inline-block ps-2 mb-3">{{ title }}</h1>
-        {% if category %}
-            <button class="btn btn-link edit-category px-0 pt-2 me-2 me-sm-0 float-end" type="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-pencil-square"></i>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item mb-1" href="{% url 'update-category' category.pk %}">
-                    <i class="bi bi-pencil-square me-2"></i>Редагувати категорію</a></li>
-                <li>
-                    <button class="dropdown-item" id="category-delete" data-bs-toggle="modal"
-                            data-bs-target="#category_delete_confirm_{{ category.pk }}" title="Видалити категорію">
-                        <i class="bi bi-trash me-2"></i>Видалити категорію
-                    </button>
-                </li>
-            </ul>
-            {% include 'main_app/inc/_modal_category_delete_confirm.html' %}
-        {% endif %}
-    </div>
-
-    {% if not without_add_task_button %}
-        <div class="add-task-area text-center d-none d-sm-block mb-4 mx-auto">
-            <a class="nav-link add-task d-inline-block"
-               href="{% url 'add-task' %}{% if category %}?init_cat={{ category.pk }}{% endif %}">
-                <i class="bi bi-plus-circle fs-6 me-2"></i><b>Додати нове завдання</b>
-            </a>
-        </div>
-    {% endif %}
-
-    {% url 'performed-task' as path %}
-    {% if task_list and path == request.path %}
-        <div class="text-end delete-performed-tasks mb-3">
-            <button type="button" title="Очистити список" class="btn btn-link btn-sm ps-0" data-bs-toggle="modal"
-                    data-bs-target="#performed_tasks_delete_confirm">Очистити список
-            </button>
-        </div>
-        {% include 'main_app/inc/_modal_performed_tasks_delete_confirm.html' %}
-    {% endif %}
-
-    <ul class="task-list list-unstyled">
-        {% for task in task_list %}
-            {% include 'main_app/inc/_single_task_at_list.html' with current_category=category %}
-        {% empty %}
-            {% url 'performed-task' as path %}
-            {% if path == request.path %}
-                <p class="text-center fw-bold">Виконаних завдань немає</p>
-            {% else %}
-                <p class="text-center fw-bold">Немає запланованих завдань</p>
+    <div class="max-w-750">
+        <div class="page-title-area text-center">
+            <h1 class="page-title d-inline-block ps-2 mb-3">{{ title }}</h1>
+            {% if category %}
+                <button class="btn btn-link edit-category px-0 pt-2 me-2 me-sm-0 float-end" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-pencil-square"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item mb-1" href="{% url 'update-category' category.pk %}">
+                        <i class="bi bi-pencil-square me-2"></i>Редагувати категорію</a></li>
+                    <li>
+                        <button class="dropdown-item" id="category-delete" data-bs-toggle="modal"
+                                data-bs-target="#category_delete_confirm_{{ category.pk }}" title="Видалити категорію">
+                            <i class="bi bi-trash me-2"></i>Видалити категорію
+                        </button>
+                    </li>
+                </ul>
+                {% include 'main_app/inc/_modal_category_delete_confirm.html' %}
             {% endif %}
-        {% endfor %}
-    </ul>
+        </div>
+
+        {% if not without_add_task_button %}
+            <div class="add-task-area text-center d-none d-sm-block mb-4 mx-auto">
+                <a class="nav-link add-task d-inline-block"
+                   href="{% url 'add-task' %}{% if category %}?init_cat={{ category.pk }}{% endif %}">
+                    <i class="bi bi-plus-circle fs-6 me-2"></i><b>Додати нове завдання</b>
+                </a>
+            </div>
+        {% endif %}
+
+        {% url 'performed-task' as path %}
+        {% if task_list and path == request.path %}
+            <div class="text-end delete-performed-tasks mb-3">
+                <button type="button" title="Очистити список" class="btn btn-link btn-sm ps-0" data-bs-toggle="modal"
+                        data-bs-target="#performed_tasks_delete_confirm">Очистити список
+                </button>
+            </div>
+            {% include 'main_app/inc/_modal_performed_tasks_delete_confirm.html' %}
+        {% endif %}
+
+        <ul class="task-list list-unstyled">
+            {% for task in task_list %}
+                {% include 'main_app/inc/_single_task_at_list.html' with current_category=category %}
+            {% empty %}
+                {% url 'performed-task' as path %}
+                {% if path == request.path %}
+                    <p class="text-center fw-bold">Виконаних завдань немає</p>
+                {% else %}
+                    <p class="text-center fw-bold">Немає запланованих завдань</p>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

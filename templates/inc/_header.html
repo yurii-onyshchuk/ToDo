@@ -1,61 +1,64 @@
-<nav class="navbar navbar-expand-sm">
-    <div class="container-md">
-        <div class="col-6 col-sm">
-            <a class="navbar-brand" href="{% url 'tasks' %}">ToDoList</a>
+<header class="sticky-top mb-3">
+    <nav class="navbar navbar-expand-sm">
+        <div class="container-md">
+            <div class="col">
+                <a class="navbar-brand" href="{% url 'tasks' %}">ToDoList</a>
+            </div>
+            {% if request.user.is_authenticated %}
+                <div class="col col-sm-7 col-md-6 col-lg-5 col-xl-4 order-1 order-sm-0" style="max-width: 576px">
+                    <div class="collapse navbar-collapse" id="SearchBox">
+                        <form class="d-flex w-100 mt-1 mt-sm-0" role="search" action="{% url 'search' %}" method="GET"
+                              autocomplete="off">
+                            <div class="input-group">
+                                <input required class="form-control" type="search" name="q" value="{{ q }}"
+                                       aria-label="Search" placeholder="Введіть пошуковий запит...">
+                                <button type="submit" class="btn btn-dark">Пошук</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-1 order-0 order-sm-1 text-end">
+                    <button class="navbar-toggler toggle-search-button p-0 me-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#SearchBox">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <div class="d-inline-block dropdown mx-2 me-sm-0">
+                        <a class="user-link" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                            <i class="fa-regular fa-user"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                {% if user.first_name and user.last_name %}
+                                    <h6 class="dropdown-header font">{{ user.first_name }} {{ user.last_name }}</h6>
+                                {% else %}
+                                    <h6 class="dropdown-header font">{{ user }}</h6>
+                                {% endif %}
+                            </li>
+                            <li>
+                                {% url 'personal_cabinet' as path %}
+                                <a class="dropdown-item{% if path == request.path %} active{% endif %}"
+                                   href="{% url 'personal_cabinet' %}">
+                                    <i class="bi bi-person me-2 fs-6"></i>Особистий кабінет</a>
+                            </li>
+                            <li><a class="dropdown-item mt-1" href="{% url 'logout' %}">
+                                <i class="bi bi-box-arrow-right me-2 fs-6"></i>Вийти з акаунту</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% else %}
+                <ul class="nav navbar-nav ms-auto flex-row">
+                    <li class="nav-item">
+                        {% url 'login' as path %}
+                        <a class="nav-link{% if path == request.path %} active{% endif %} px-2"
+                           href="{% url 'login' %}">Вхід</a>
+                    </li>
+                    <li class="nav-item">
+                        {% url 'sign_up' as path %}
+                        <a class="nav-link{% if path == request.path %} active{% endif %} px-2" href="{% url 'sign_up' %}">Реєстрація</a>
+                    </li>
+                </ul>
+            {% endif %}
         </div>
-        {% if request.user.is_authenticated %}
-            <div class="col col-sm-7 col-md-6 col-lg-5 col-xl-4 order-1 order-sm-0" style="max-width: 576px">
-                <div class="collapse navbar-collapse" id="SearchBox">
-                    <form class="d-flex w-100 mt-1 mt-sm-0" role="search" action="{% url 'search' %}" method="GET"
-                          autocomplete="off">
-                        <div class="input-group">
-                            <input required class="form-control" type="search" name="q" value="{{ q }}"
-                                   aria-label="Search" placeholder="Введіть пошуковий запит...">
-                            <button type="submit" class="btn btn-dark">Пошук</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-6 col-sm-1 order-0 order-sm-1 text-end">
-                <button class="navbar-toggler toggle-search-button p-0 me-3" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#SearchBox">
-                    <i class="fa fa-search"></i>
-                </button>
-                <div class="d-inline-block dropdown mx-2 me-sm-0">
-                    <a class="user-link" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-                        <i class="fa-regular fa-user"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            {% if user.first_name and user.last_name %}
-                                <h6 class="dropdown-header font">{{ user.first_name }} {{ user.last_name }}</h6>
-                            {% else %}
-                                <h6 class="dropdown-header font">{{ user }}</h6>
-                            {% endif %}
-                        </li>
-                        <li>
-                            {% url 'personal_cabinet' as path %}
-                            <a class="dropdown-item{% if path == request.path %} active{% endif %}"
-                               href="{% url 'personal_cabinet' %}">
-                                <i class="bi bi-person me-2 fs-6"></i>Особистий кабінет</a>
-                        </li>
-                        <li><a class="dropdown-item mt-1" href="{% url 'logout' %}?next={{ request.path }}">
-                            <i class="bi bi-box-arrow-right me-2 fs-6"></i>Вийти з акаунту</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        {% else %}
-            <ul class="nav navbar-nav ms-auto">
-                <li class="nav-item">
-                    {% url 'login' as path %}
-                    <a class="nav-link{% if path == request.path %} active{% endif %}" href="{% url 'login' %}">Вхід</a>
-                </li>
-                <li class="nav-item">
-                    {% url 'sign_up' as path %}
-                    <a class="nav-link{% if path == request.path %} active{% endif %}" href="{% url 'sign_up' %}">Реєстрація</a>
-                </li>
-            </ul>
-        {% endif %}
-    </div>
-</nav>
+    </nav>
+</header>
