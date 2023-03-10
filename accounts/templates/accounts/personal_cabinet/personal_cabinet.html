@@ -10,7 +10,7 @@
         </div>
         <div class="row row-cols-1 row-cols-md-2 g-3">
             <div class="col">
-                <a href="{% url 'personal_info' request.user.pk %}" class="text-reset" role="button">
+                <a href="{% url 'personal_info' request.user.slug %}" class="text-reset" role="button">
                     <div class="card">
                         <div class="row g-0">
                             <div class="col-2 position-relative">
@@ -28,7 +28,7 @@
                 </a>
             </div>
             <div class="col">
-                <a href="{% url 'personal_safety' request.user.pk %}" class="text-reset" role="button">
+                <a href="{% url 'personal_safety' request.user.slug %}" class="text-reset" role="button">
                     <div class="card">
                         <div class="row g-0">
                             <div class="col-2 position-relative">
