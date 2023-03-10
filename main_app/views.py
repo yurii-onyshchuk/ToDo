@@ -2,14 +2,14 @@ from itertools import chain
 
 from django.db.models import Q
 from django.shortcuts import redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.datetime_safe import datetime
-from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
 
-from .models import Task, Category
 from .form import CategoryForm
+from .models import Task, Category
 from .utils import AddUserToFormMixin, TaskEditMixin
 
 

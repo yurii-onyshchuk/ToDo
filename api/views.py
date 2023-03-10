@@ -1,8 +1,10 @@
 from django.contrib.auth import get_user_model
+
 from rest_framework import generics
 from rest_framework import viewsets
-from main_app.models import Task, Category
+
 from .serializers import TaskSerializer, CategorySerializer, UserSerializer
+from main_app.models import Task, Category
 
 User = get_user_model()
 

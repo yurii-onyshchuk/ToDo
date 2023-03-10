@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+
 from main_app.form import TaskForm
 from main_app.models import Category
 
