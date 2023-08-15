@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 User = get_user_model()
 
 
-class UserSingUpForm(UserCreationForm):
+class SignUpForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['email'].widget.attrs.update({'autofocus': False})
@@ -27,13 +27,13 @@ class UserSingUpForm(UserCreationForm):
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2',)
 
 
-class UserSetPasswordForm(SetPasswordForm):
+class CustomSetPasswordForm(SetPasswordForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['new_password1'].help_text = ''
 
 
-class UserPasswordChangeForm(PasswordChangeForm):
+class CustomPasswordChangeForm(PasswordChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['new_password1'].help_text = ''
