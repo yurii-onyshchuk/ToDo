@@ -2,6 +2,7 @@
 # General
 --------------------------------------------------------------*/
 body {
+    font-family: "Raleway", sans-serif;
     font-size: 14px;
 }
 
@@ -27,6 +28,27 @@ body {
 .layout-task-form {
     max-width: 500px;
     margin: 0 auto;
+}
+
+.btn-social,
+.btn-social:hover,
+.btn-social:active,
+.btn-social:focus {
+    color: black;
+    background-color: #ffffff;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.btn-social:hover,
+.btn-social:active,
+.btn-social:focus {
+    background-color: rgba(220, 230, 255, 0.1);
+    box-shadow: 0 0 7px 5px rgb(220, 230, 255);
+}
+
+.btn-social:active {
+    background-color: rgba(220, 230, 255, 0.5);
+    scale: 0.99;
 }
 
 a, a:hover {
@@ -109,7 +131,7 @@ body button svg:hover {
     background-color: #e0e0e0;
 }
 
-.nav-link.active, .nav-link:active{
+.nav-link.active, .nav-link:active {
     font-weight: bold;
 }
 

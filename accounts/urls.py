@@ -1,10 +1,13 @@
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth.views import LogoutView, PasswordChangeView, PasswordChangeDoneView, PasswordResetView, \
     PasswordResetConfirmView, PasswordResetDoneView, PasswordResetCompleteView
 
 from . import views, forms
 
 urlpatterns = [
+    # Social Auth
+    path('', include('social_django.urls')),
+
     # Authentication
     path('signup/', views.SignUpView.as_view(), name='sign_up'),
     path('login/', views.CustomLoginView.as_view(), name='login'),
