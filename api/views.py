@@ -3,15 +3,10 @@ from django.contrib.auth import get_user_model
 from rest_framework import generics
 from rest_framework import viewsets
 
-from .serializers import TaskSerializer, CategorySerializer, UserSerializer
+from .serializers import TaskSerializer, CategorySerializer
 from main_app.models import Task, Category
 
 User = get_user_model()
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
 
 class TaskAPIViewSet(viewsets.ModelViewSet):

@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path, include
+from django.urls import path, include, re_path
 
 from rest_framework.routers import DefaultRouter
 
@@ -22,11 +22,14 @@ from . import views
 router = DefaultRouter()
 router.register('tasks', views.TaskAPIViewSet, basename='tasks')
 router.register('categories', views.CategoriesAPIViewSet, basename='categories')
-router.register('users', views.UserViewSet)
 
 urlpatterns = [
-    path('v1/', include(router.urls)),
-    path('v1/drf-auth/', include('rest_framework.urls')),
-    path('v1/category/<int:pk>/', views.TaskByCategoryAPIView.as_view()),
-    path('v1/performed/', views.PerformedTaskAPIView.as_view()),
+    path('', include(router.urls)),
+    path('category/<int:pk>/', views.TaskByCategoryAPIView.as_view()),
+    path('performed/', views.PerformedTaskAPIView.as_view()),
+    # Session-based authentication
+    path('drf-auth/', include('rest_framework.urls')),
+    # Token-based authentication
+    path('auth/', include('djoser.urls')),
+    re_path(r'^auth/', include('djoser.urls.authtoken')),
 ]

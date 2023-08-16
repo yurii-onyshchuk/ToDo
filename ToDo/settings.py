@@ -38,11 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'main_app.apps.MainAppConfig',
+    'social_django',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
     'debug_toolbar',
     'crispy_forms',
     'crispy_bootstrap5',
-    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -181,5 +183,10 @@ EMAIL_USE_TLS = str(os.getenv('EMAIL_USE_TLS')) == 'True'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ]
 }
