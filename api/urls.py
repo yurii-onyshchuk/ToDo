@@ -27,8 +27,10 @@ urlpatterns = [
     path('', include(router.urls)),
     path('category/<int:pk>/', views.TaskByCategoryAPIView.as_view()),
     path('performed/', views.PerformedTaskAPIView.as_view()),
+
     # Session-based authentication
     path('drf-auth/', include('rest_framework.urls')),
+
     # Token-based authentication
     path('auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
