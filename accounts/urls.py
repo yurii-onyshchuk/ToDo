@@ -9,9 +9,9 @@ urlpatterns = [
     path('', include('social_django.urls')),
 
     # Authentication
-    path('signup/', views.SignUpView.as_view(), name='account_sign_up'),
-    path('login/', views.CustomLoginView.as_view(), name='account_login'),
-    path('logout/', LogoutView.as_view(), name='account_logout'),
+    path('signup/', views.SignUpView.as_view(), name='sign_up'),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
 
     # Personal cabinet
     path('personal-cabinet/', views.PersonalCabinetView.as_view(), name='personal_cabinet'),
