@@ -40,7 +40,7 @@
                                    href="{% url 'personal_cabinet' %}">
                                     <i class="bi bi-person me-2 fs-6"></i>Особистий кабінет</a>
                             </li>
-                            <li><a class="dropdown-item mt-1" href="{% url 'logout' %}">
+                            <li><a class="dropdown-item mt-1" href="{% url 'account_logout' %}">
                                 <i class="bi bi-box-arrow-right me-2 fs-6"></i>Вийти з акаунту</a>
                             </li>
                         </ul>
@@ -49,13 +49,13 @@
             {% else %}
                 <ul class="nav navbar-nav ms-auto flex-row">
                     <li class="nav-item">
-                        {% url 'login' as path %}
+                        {% url 'account_login' as path %}
                         <a class="nav-link{% if path == request.path %} active{% endif %} px-2"
-                           href="{% url 'login' %}">Вхід</a>
+                           href="{% url 'account_login' %}">Вхід</a>
                     </li>
                     <li class="nav-item">
-                        {% url 'sign_up' as path %}
-                        <a class="nav-link{% if path == request.path %} active{% endif %} px-2" href="{% url 'sign_up' %}">Реєстрація</a>
+                        {% url 'account_sign_up' as path %}
+                        <a class="nav-link{% if path == request.path %} active{% endif %} px-2" href="{% url 'account_sign_up' %}">Реєстрація</a>
                     </li>
                 </ul>
             {% endif %}
