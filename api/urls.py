@@ -33,5 +33,5 @@ urlpatterns = [
 
     # Token-based authentication
     path('auth/', include('djoser.urls')),
-    re_path(r'^auth/', include('djoser.urls.authtoken')),
+    re_path(r'^auth/', include(('djoser.urls.authtoken', 'authtoken'))),
 ]
