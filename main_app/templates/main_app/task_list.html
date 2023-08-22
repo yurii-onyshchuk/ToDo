@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load sidebar %}
 
 {% block title %} {{ title }} :: {{ block.super }} {% endblock %}
@@ -8,7 +9,7 @@
 {% block content %}
     <div class="max-w-750">
         <div class="page-title-area text-center">
-            <h1 class="page-title d-inline-block ps-2 mb-3">{{ title }}</h1>
+            <h1 class="page-title d-inline-block">{{ title }}</h1>
             {% if category %}
                 <button class="btn btn-link edit-category px-0 pt-2 me-2 me-sm-0 float-end" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -29,10 +30,11 @@
         </div>
 
         {% if not without_add_task_button %}
-            <div class="add-task-area text-center d-none d-sm-block mb-4 mx-auto">
-                <a class="nav-link add-task d-inline-block"
-                   href="{% url 'add-task' %}{% if category %}?init_cat={{ category.pk }}{% endif %}">
-                    <i class="bi bi-plus-circle fs-6 me-2"></i><b>Додати нове завдання</b>
+            <div class="add-task-area text-center d-none d-sm-block my-3">
+                <a href="{% url 'add-task' %}{% if category %}?init_cat={{ category.pk }}{% endif %}">
+                    <button class="btn btn-dark">
+                        <i class="bi bi-plus-circle me-2"></i> Додати нове завдання
+                    </button>
                 </a>
             </div>
         {% endif %}
@@ -51,12 +53,15 @@
             {% for task in task_list %}
                 {% include 'main_app/inc/_single_task_at_list.html' with current_category=category %}
             {% empty %}
-                {% url 'performed-task' as path %}
-                {% if path == request.path %}
-                    <p class="text-center fw-bold">Виконаних завдань немає</p>
-                {% else %}
-                    <p class="text-center fw-bold">Немає запланованих завдань</p>
-                {% endif %}
+                <div class="all-task-ready text-center">
+                    <img class="ms-3 my-3" src="{% static 'img/all-task-ready.webp' %}" height="150px" alt="">
+                    {% url 'performed-task' as path %}
+                    {% if path == request.path %}
+                        <p class="fw-bold"><em>Виконаних завдань немає</em></p>
+                    {% else %}
+                        <p class="fw-bold"><em>Запланованих завдань немає</em></p>
+                    {% endif %}
+                </div>
             {% endfor %}
         </ul>
     </div>
