@@ -50,25 +50,29 @@ a, a:hover {
     transform: scale(1.1);
 }
 
-.btn-social,
-.btn-social:hover,
-.btn-social:active,
-.btn-social:focus {
+.social-auth .btn-social,
+.social-auth .btn-social:hover,
+.social-auth .btn-social:active,
+.social-auth .btn-social:focus {
     color: black;
     background-color: #ffffff;
     border-color: rgba(0, 0, 0, 0.2);
 }
 
-.btn-social:hover,
-.btn-social:active,
-.btn-social:focus {
+.social-auth .btn-social:hover,
+.social-auth .btn-social:active,
+.social-auth .btn-social:focus {
     background-color: rgba(220, 230, 255, 0.1);
     box-shadow: 0 0 7px 5px rgb(220, 230, 255);
 }
 
-.btn-social:active {
+.social-auth .btn-social:active {
     background-color: rgba(220, 230, 255, 0.5);
     scale: 0.99;
+}
+
+.social-auth .btn-social svg {
+    margin-bottom: 2px;
 }
 
 /*--------------------------------------------------------------
