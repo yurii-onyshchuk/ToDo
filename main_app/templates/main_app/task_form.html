@@ -8,7 +8,7 @@
 
 {% block content %}
     <div class="layout-task-form">
-        <h1 class="page-title">{{ title }}</h1>
+        <h1 class="page-title mb-4">{{ title }}</h1>
         <form method="POST">
             {% csrf_token %}
             {{ form|crispy }}
