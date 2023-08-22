@@ -1,7 +1,7 @@
 <header class="sticky-top mb-3">
     <nav class="navbar navbar-expand-sm">
         <div class="container-md">
-            <div class="col">
+            <div class="col-6 col-sm">
                 <a class="navbar-brand" href="{% url 'tasks' %}">ToDoList</a>
             </div>
             {% if request.user.is_authenticated %}
@@ -20,28 +20,30 @@
                 <div class="col-6 col-sm-1 order-0 order-sm-1 text-end">
                     <button class="navbar-toggler toggle-search-button p-0 me-3" type="button" data-bs-toggle="collapse"
                             data-bs-target="#SearchBox">
-                        <i class="fa fa-search"></i>
+                        <i class="fa fa-search nav-icon"></i>
                     </button>
                     <div class="d-inline-block dropdown mx-2 me-sm-0">
                         <a class="user-link" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-                            <i class="fa-regular fa-user"></i>
+                            <i class="fa-regular fa-user nav-icon"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu dropdown-menu-end pt-1">
                             <li>
-                                {% if user.first_name and user.last_name %}
-                                    <h6 class="dropdown-header font">{{ user.first_name }} {{ user.last_name }}</h6>
-                                {% else %}
-                                    <h6 class="dropdown-header font">{{ user }}</h6>
-                                {% endif %}
+                                <h6 class="dropdown-header border-bottom fw-bold">
+                                    {% if user.first_name and user.last_name %}
+                                        {{ user.first_name }} {{ user.last_name }}
+                                    {% else %}
+                                        {{ user }}
+                                    {% endif %}
+                                </h6>
                             </li>
                             <li>
                                 {% url 'personal_cabinet' as path %}
                                 <a class="dropdown-item{% if path == request.path %} active{% endif %}"
                                    href="{% url 'personal_cabinet' %}">
-                                    <i class="bi bi-person me-2 fs-6"></i>Особистий кабінет</a>
+                                    <i class="bi bi-person me-2"></i>Особистий кабінет</a>
                             </li>
                             <li><a class="dropdown-item mt-1" href="{% url 'logout' %}">
-                                <i class="bi bi-box-arrow-right me-2 fs-6"></i>Вийти з акаунту</a>
+                                <i class="bi bi-box-arrow-right me-2"></i>Вийти з акаунту</a>
                             </li>
                         </ul>
                     </div>
@@ -55,7 +57,8 @@
                     </li>
                     <li class="nav-item">
                         {% url 'sign_up' as path %}
-                        <a class="nav-link{% if path == request.path %} active{% endif %} px-2" href="{% url 'sign_up' %}">Реєстрація</a>
+                        <a class="nav-link{% if path == request.path %} active{% endif %} px-2"
+                           href="{% url 'sign_up' %}">Реєстрація</a>
                     </li>
                 </ul>
             {% endif %}
