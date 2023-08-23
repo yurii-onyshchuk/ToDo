@@ -31,13 +31,28 @@ body {
 }
 
 a, a:hover {
-    color: black;
+    color: #000000;
+    font-style: normal;
     text-decoration: none;
+}
+
+a:hover {
+    color: #646464;
 }
 
 /*--------------------------------------------------------------
 # Buttons
 --------------------------------------------------------------*/
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-link,
+.btn-link:active i {
+    color: black;
+}
+
+
 .toggle-search-button,
 .toggle-search-button:focus {
     border: none;
@@ -68,11 +83,15 @@ a, a:hover {
 
 .social-auth .btn-social:active {
     background-color: rgba(220, 230, 255, 0.5);
-    scale: 0.99;
+    transform: scale(0.99);
 }
 
 .social-auth .btn-social svg {
     margin-bottom: 2px;
+}
+
+.bi:before {
+    line-height: 1.25;
 }
 
 /*--------------------------------------------------------------
@@ -99,6 +118,8 @@ a, a:hover {
     font-size: 19px;
 }
 
+.btn-link:hover,
+.btn.show,
 .nav-icon:hover,
 .add-task:hover {
     color: #646464;
@@ -202,6 +223,18 @@ a, a:hover {
     width: 16px;
     height: 16px;
     vertical-align: text-bottom;
+}
+
+/*--------------------------------------------------------------
+# Personal cabinet
+--------------------------------------------------------------*/
+.personal-cabinet .card:hover {
+    background-color: rgb(245, 245, 245);
+}
+
+.personal-cabinet .card:active {
+    transform: scale(0.99);
+    transition: all 0.2s;
 }
 
 /*--------------------------------------------------------------
