@@ -15,6 +15,8 @@ User = get_user_model()
 
 
 class SignUpView(RedirectAuthenticatedUserMixin, CreateView):
+    """View for handling the user registration."""
+
     extra_context = {'title': 'Реєстрація'}
     template_name = 'accounts/signup.html'
     form_class = forms.SignUpForm
@@ -33,6 +35,8 @@ class SignUpView(RedirectAuthenticatedUserMixin, CreateView):
 
 
 class CustomLoginView(LoginView):
+    """View for handling the user login process."""
+
     extra_context = {'title': 'Вхід'}
     template_name = 'accounts/login.html'
     form_class = AuthenticationForm
@@ -41,12 +45,20 @@ class CustomLoginView(LoginView):
 
 
 class PersonalCabinetView(LoginRequiredMixin, TemplateView):
+    """View for the user's personal cabinet.
+
+    This view displays the user's personal cabinet with information about
+    orders and personal data.
+    """
+
     extra_context = {'title': 'Особистий кабінет',
                      'subtitle': 'Керуйте своїми особистими даними та безпекою акаунту'}
     template_name = 'accounts/personal_cabinet/personal_cabinet.html'
 
 
 class PersonalInfoUpdateView(LoginRequiredMixin, UpdateView):
+    """View for updating the user's personal information."""
+
     extra_context = {'title': 'Особисті дані',
                      'subtitle': 'Керуйте своїми особистими та контактними даними'}
     template_name = 'accounts/personal_cabinet/personal_info.html'
@@ -61,12 +73,16 @@ class PersonalInfoUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class PersonalSafetyView(LoginRequiredMixin, TemplateView):
+    """View for account safety settings."""
+
     extra_context = {'title': 'Безпека облікового запису',
                      'subtitle': 'Змінити пароль або видалити обліковий запис'}
     template_name = 'accounts/personal_cabinet/personal_safety.html'
 
 
 class AccountDeleteView(LoginRequiredMixin, DeleteView):
+    """View for deleting a user's account."""
+
     extra_context = {'title': 'Видалення облікового запису'}
 
     def get_queryset(self):

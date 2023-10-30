@@ -11,6 +11,12 @@ username_validator = UnicodeUsernameValidator()
 
 
 class User(AbstractUser):
+    """Custom user model with email and additional fields.
+
+    This user model extends the AbstractUser and replaces the username
+    with email as the unique identifier.
+    """
+
     username = models.CharField(_("username"), max_length=150, unique=True, validators=[username_validator],
                                 error_messages={"unique": _("A user with that username already exists."), })
     first_name = models.CharField(_("first name"), max_length=150)

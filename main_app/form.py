@@ -4,6 +4,8 @@ from .models import Task, Category
 
 
 class TaskForm(forms.ModelForm):
+    """Form for creating or updating a Task object."""
+
     class Meta:
         model = Task
         fields = ('title', 'description', 'category', 'planned_date')
@@ -14,6 +16,8 @@ class TaskForm(forms.ModelForm):
 
 
 class CategoryForm(forms.ModelForm):
+    """Form for creating or updating a Category object."""
+
     class Meta:
         model = Category
         fields = ('title',)

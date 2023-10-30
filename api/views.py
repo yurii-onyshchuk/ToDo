@@ -10,6 +10,8 @@ User = get_user_model()
 
 
 class TaskAPIViewSet(viewsets.ModelViewSet):
+    """API view for the Task model."""
+
     serializer_class = TaskSerializer
 
     def get_queryset(self):
@@ -17,6 +19,8 @@ class TaskAPIViewSet(viewsets.ModelViewSet):
 
 
 class CategoriesAPIViewSet(viewsets.ModelViewSet):
+    """API view for the Category model."""
+
     serializer_class = CategorySerializer
 
     def get_queryset(self):
@@ -24,6 +28,8 @@ class CategoriesAPIViewSet(viewsets.ModelViewSet):
 
 
 class TaskByCategoryAPIView(generics.ListAPIView):
+    """API view for retrieving tasks by category."""
+
     serializer_class = TaskSerializer
 
     def get_queryset(self):
@@ -31,6 +37,8 @@ class TaskByCategoryAPIView(generics.ListAPIView):
 
 
 class PerformedTaskAPIView(generics.ListAPIView):
+    """API view for retrieving performed tasks."""
+
     serializer_class = TaskSerializer
 
     def get_queryset(self):
