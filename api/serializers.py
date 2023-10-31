@@ -13,9 +13,18 @@ class TaskSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     def get_fields(self):
-        """Get the serializer fields and filter the 'category' field queryset based on the request user."""
+        """Get the serializer fields and filter the 'category' field queryset based on the request user.
+
+        This method retrieves the serializer fields and filters the 'category' field queryset
+        to include only categories associated with the requesting user.
+
+        If the user is not authenticated, the 'category' field queryset is set to empty,
+        ensuring compatibility with Swagger documentation.
+        """
         fields = super(TaskSerializer, self).get_fields()
-        fields['category'].queryset = fields['category'].queryset.filter(user=self.context['request'].user)
+        fields['category'].queryset = fields['category'].queryset.none()
+        if self.context['request'].user.is_authenticated:
+            fields['category'].queryset = fields['category'].queryset.filter(user=self.context['request'].user)
         return fields
 
     class Meta:

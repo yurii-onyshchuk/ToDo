@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'drf_yasg',
     'debug_toolbar',
     'crispy_forms',
     'crispy_bootstrap5',

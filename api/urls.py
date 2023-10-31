@@ -18,8 +18,10 @@ from django.urls import path, include, re_path
 from rest_framework.routers import DefaultRouter
 
 from . import views
+from .yasg import urlpatterns as doc_urls
 
 router = DefaultRouter()
+
 router.register('tasks', views.TaskAPIViewSet, basename='tasks')
 router.register('categories', views.CategoriesAPIViewSet, basename='categories')
 
@@ -35,3 +37,6 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     re_path(r'^auth/', include(('djoser.urls.authtoken', 'authtoken'))),
 ]
+
+# API documentation
+urlpatterns += doc_urls
