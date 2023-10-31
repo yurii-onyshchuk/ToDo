@@ -10,7 +10,7 @@ from django.views.generic.list import ListView
 
 from .form import CategoryForm
 from .models import Task, Category
-from .utils import AddUserToFormMixin, TaskEditMixin
+from .mixins import AddUserToFormMixin, TaskEditMixin
 
 
 class TaskList(LoginRequiredMixin, ListView):

@@ -19,7 +19,6 @@ class TaskEditMixin:
         This method updates the form fields to include categories, set the initial category,
         and provide an empty label for the category dropdown.
         """
-
         context = super().get_context_data(**kwargs)
         context['form'].fields['category'].queryset = Category.objects.filter(user=self.request.user)
         context['form'].fields['category'].empty_label = "Всі завдання"
@@ -31,7 +30,6 @@ class TaskEditMixin:
 
         The URL is based on the category selected in the form.
         """
-
         if self.request.POST['category']:
             return reverse_lazy('task-by-category', kwargs={'pk': self.request.POST['category'], })
         else:
